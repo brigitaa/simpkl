@@ -145,6 +145,77 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        
+        'name' => [
+            'required' => 'Nama harus diisi.',
+        ],
+
+        'email' => [
+            'required' => 'Email harus diisi.',
+            'unique' => 'Email ini sudah digunakan.',
+        ],
+        
+        'username' => [
+            'required' => 'Username harus diisi.',
+            'unique' => 'Username ini sudah digunakan.',
+        ],
+
+        'password' => [
+            'required' => 'Password harus diisi.',
+        ],
+
+        'nis' => [
+            'required' => 'NIS harus diisi.',
+            'numeric' => 'NIS harus berupa angka,',
+            'unique' => 'NIS ini sudah digunakan.',
+        ],
+
+        'nisn' => [
+            'required' => 'NISN harus diisi.',
+            'numeric' => 'NISN harus berupa angka,',
+            'unique' => 'NISN ini sudah digunakan.',
+        ],
+
+        'nama_siswa' => [
+            'required' => 'Nama siswa PKL harus diisi.',
+        ],
+
+        'nama' => [
+            'required' => 'Nama siswa PKL harus diisi.',
+        ],
+
+        'jeniskelamin' => [
+            'required' => 'Jenis kelamin harus diisi.',
+        ],
+
+        'alamat' => [
+            'required' => 'Alamat harus diisi.',
+        ],
+
+        'no_telp' => [
+            'required' => 'No. telepon harus diisi.',
+            'numeric' => 'No. telepon harus berupa angka.',
+            'digits_between' => 'No. telepon harus di antara 11 dan 13 digit'
+        ],
+
+        'file' => [
+            'required' => 'File impor harus diisi',
+            'mimes' => 'File impor harus berupa file dengan tipe xls atau xlsx.',
+        ],
+
+        'kode_kelas' => [
+            'required' => 'Kode kelas harus diisi.',
+        ],
+
+        'kode_thn_ajaran' => [
+            'required' => 'Kode tahun ajaran harus diisi.',
+            'unique' => 'Kode tahun ajaran ini sudah digunakan.',
+        ],
+
+        'nama_thn_ajaran' => [
+            'required' => 'Tahun ajaran harus diisi.',
+            'unique' => 'Tahun ajaran ini sudah digunakan.',
+        ],
     ],
 
     /*
