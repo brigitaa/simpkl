@@ -15,9 +15,10 @@ class CreateKaprogTable extends Migration
     {
         Schema::create('kaprog', function (Blueprint $table) {
             $table->id();
-            $table->integer('nip');
+            $table->string('nip', 255);
             $table->string('nama_kaprog', 255);
             $table->integer('users_id');
+            $table->string('kode_keahlian', 255);
             $table->timestamps();
         });
     }

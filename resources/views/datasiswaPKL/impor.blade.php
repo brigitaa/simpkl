@@ -6,17 +6,17 @@
         <h6 class="m-0 font-weight-bold text-primary">Impor Data Siswa PKL</h6>
     </div>
     <div class="card-body">
-    <div class="row">
-        <div class="col-12">
-            <p> Download file template impor berikut : 
-                <a class="btn btn-primary btn-sm" href="{{route('datasiswaPKL.downloadfile')}}">
-                <i class="fas fa-download"></i> Download Template</a>
-            </p>
+        <div class="row">
+            <div class="col-12">
+                <p> Download file template impor berikut : 
+                    <a class="btn btn-primary btn-sm" href="{{route('datasiswaPKL.downloadfile')}}">
+                    <i class="fas fa-download"></i> Download Template</a>
+                </p>
+            </div>
         </div>
-    </div>
         <form action="{{route('datasiswaPKL.import')}}" method="POST" enctype="multipart/form-data">
         @csrf
-        @if (count($errors) > 0)
+            @if (count($errors) > 0)
                 <div class="row">
                     <div class="col-md-8 col-md-offset-1">
                       <div class="alert alert-danger alert-dismissible">
@@ -28,15 +28,10 @@
                       </div>
                     </div>
                 </div>
-                @endif
+            @endif  
             <div class="form-group">
                 <label for="exampleFormControlFile1">File Impor Data Siswa PKL<sup class="text-danger">*</sup></label>
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" name="file">
-                <div class="text-danger">
-                    @error('file')
-                        {{ $message }}
-                    @enderror
-                </div>
             </div>
             <div class="col text-right">
                 <button type="submit" class="btn btn-success">Simpan</button>

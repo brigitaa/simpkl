@@ -11,7 +11,6 @@ class Kompetensi_keahlian extends Model
     public $table = "kompetensi_keahlian";
     protected $fillable = [
         'kode_keahlian',
-        'nama_keahlian',
-        'kaprog_id'
+        'nama_keahlian'
     ];
 }

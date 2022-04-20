@@ -203,8 +203,24 @@ return [
             'mimes' => 'File impor harus berupa file dengan tipe xls atau xlsx.',
         ],
 
+        'kode_keahlian' => [
+            'required' => 'Kode kompetensi keahlian harus diisi.',
+            'unique' => 'Kode kompetensi keahlian ini sudah digunakan.',
+        ],
+
+        'nama_keahlian' => [
+            'required' => 'Kompetensi keahlian harus diisi.',
+            'unique' => 'Kompetensi keahlian ini sudah digunakan.',
+        ],
+
         'kode_kelas' => [
             'required' => 'Kode kelas harus diisi.',
+            'unique' => 'Kode kelas ini sudah digunakan.',
+        ],
+
+        'nama_kelas' => [
+            'required' => 'Nama kelas harus diisi.',
+            'unique' => 'Nama kelas ini sudah digunakan.',
         ],
 
         'kode_thn_ajaran' => [
@@ -215,6 +231,12 @@ return [
         'nama_thn_ajaran' => [
             'required' => 'Tahun ajaran harus diisi.',
             'unique' => 'Tahun ajaran ini sudah digunakan.',
+        ],
+
+        'nip' => [
+            'required' => 'NIP harus diisi.',
+            'numeric' => 'NIP harus berupa angka,',
+            'unique' => 'NIP ini sudah digunakan.',
         ],
     ],
 

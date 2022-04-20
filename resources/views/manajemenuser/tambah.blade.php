@@ -49,17 +49,12 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="role">Role<sup class="text-danger">*</sup></label>
-                <select id="role" class="form-control" name="role_id" value="{{old('role_id')}}">
+                <select id="role" class="form-control" name="role_id" required value="{{old('role_id')}}">
                     <option value="">--Pilih--</option>
                     @foreach($role as $key => $value)
                         <option value="{{$value->id}}">{{$value->nama_role}}</option>
                     @endforeach
                 </select>
-                <div class="text-danger">
-                    @error('kode_kelas')
-                        {{ $message }}
-                    @enderror
-                </div>
             </div>
         </div>
         <div class="col text-right">

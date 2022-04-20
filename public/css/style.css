@@ -26,3 +26,13 @@ body {
       opacity: 0;
     }
 }
+
+.datepicker {
+  background-color: #fff ;
+  color: #333 ;
+  }
+
+.datepicker2 {
+  background-color: #fff ; 
+  color: #333 ;
+}

@@ -17,7 +17,6 @@ class CreateKompetensiKeahlianTable extends Migration
             $table->id();
             $table->string('kode_keahlian', 255);
             $table->string('nama_keahlian', 255);
-            $table->integer('kaprog_id');
             $table->timestamps();
         });
     }

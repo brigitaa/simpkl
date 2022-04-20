@@ -38,25 +38,32 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-light py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Data Master</h6>
-                <a class="collapse-item" href="{{url('datasiswaPKL')}}">Siswa PKL</a>
+                <a class="collapse-item" href="{{url('datasiswaPKL')}}">Data Siswa PKL</a>
+                <a class="collapse-item" href="{{url('kaprog')}}">Manajemen Kaprog</a>
+                <a class="collapse-item" href="{{url('manajemenuser')}}">Manajemen User</a>
                 <a class="collapse-item" href="cards.html">Guru Monitoring</a>
             </div>
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{url('datasiswaPKL')}}">
-        <i class="fas fa-fw fa-users"></i>
-            <span>Data Siswa PKL</span></a>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUmum"
+            aria-expanded="true" aria-controls="collapseUmum">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Data Umum</span>
+        </a>
+        <div id="collapseUmum" class="collapse" aria-labelledby="headingUmum" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Data Umum</h6>
+                <a class="collapse-item" href="{{url('tahunajaran')}}">Tahun Ajaran</a>
+                <a class="collapse-item" href="{{url('kompetensikeahlian')}}">Kompetensi Keahlian</a>
+                <a class="collapse-item" href="{{url('kelas')}}">Kelas</a>
+            </div>
+        </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{url('tahunajaran')}}">
+        <a class="nav-link" href="{{url('periode')}}">
             <i class="fas fa-fw fa-calendar"></i>
-            <span>Manajemen Tahun Ajaran</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{url('manajemenuser')}}">
-            <i class="fas fa-fw fa-user-plus"></i>
-            <span>Manajemen User</span></a>
+            <span>Manajemen Periode PKL</span></a>
     </li>
     @endif
 
@@ -90,7 +97,7 @@
 
     @if (session('role') == 'Kaprog')
     <li class="nav-item">
-        <a class="nav-link" href="{{route('datasiswaPKL.index')}}">
+        <a class="nav-link" href="{{route('datasiswaPKL.lihat')}}">
             <i class="fa-solid fa-screen-users"></i>
             <span>Daftar Siswa PKL</span></a>
     </li>

@@ -46,7 +46,7 @@
             <div class="form-group col-md-4">
                 <label for="role">Role<sup class="text-danger">*</sup></label>
                 <select id="role" class="form-control" name="role_id">
-                    <option value="">--Pilih--</option>
+                    <option value="" disabled>--Pilih--</option>
                     @foreach($role as $key => $value)
                     @if ($value->id==$user->role_id)
                         <option value="{{$value->id}}" selected>{{$value->nama_role}}</option>

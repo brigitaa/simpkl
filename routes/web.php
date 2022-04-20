@@ -5,7 +5,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataSiswaController;
 use App\Http\Controllers\ThnAjaranController;
+use App\Http\Controllers\KeahlianController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\KaprogController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PeriodeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,7 +45,11 @@ Route::group(['middleware' => ['auth','checkrole:Admin']], function(){
     Route::get('/datasiswaPKL-downloadfile', [DataSiswaController::class, 'downloadfile'])->name('datasiswaPKL.downloadfile');
     Route::post('/datasiswaPKL-import', [DataSiswaController::class, 'import'])->name('datasiswaPKL.import');
     Route::resource('tahunajaran', ThnAjaranController::class);
+    Route::resource('kompetensikeahlian', KeahlianController::class);
+    Route::resource('kelas', KelasController::class);
+    Route::resource('kaprog', KaprogController::class);
     Route::resource('manajemenuser', UserController::class);
+    Route::resource('periode', PeriodeController::class);
 });
 
 Route::group(['middleware' => ['auth','checkrole:Ketua Pokja PKL,Kaprog,Tata Usaha']], function(){

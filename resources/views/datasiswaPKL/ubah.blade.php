@@ -31,7 +31,7 @@
         </div>
         <div class="form-group">
             <label for="nama">Nama Lengkap<sup class="text-danger">*</sup></label>
-            <input type="text" class="form-control" id="inputAddress" name="nama" required value="{{$siswa->nama_siswa}}">
+            <input type="text" class="form-control" id="inputAddress" name="name" required value="{{$siswa->nama_siswa}}">
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">

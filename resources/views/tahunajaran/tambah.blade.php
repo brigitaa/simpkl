@@ -10,7 +10,7 @@
     @csrf
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="nama_thn_ajaran">Kode<sup class="text-danger">*</sup></label>
+                <label for="kode_thn_ajaran">Kode<sup class="text-danger">*</sup></label>
                 <input type="text" class="form-control" id="kode_thn_ajaran" name="kode_thn_ajaran" placeholder="Kode Tahun Ajaran" value="{{old('kode_thn_ajaran')}}">
                 <div class="text-danger">
                     @error('kode_thn_ajaran')

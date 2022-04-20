@@ -70,7 +70,7 @@ class DataSiswaController extends Controller
         $request->validate([
             'nis' => 'required|numeric|unique:siswa,nis',
             'nisn' => 'required|numeric|unique:siswa,nisn',
-            'nama' => 'required',
+            'name' => 'required',
             'jeniskelamin' => 'required',
             'no_telp' => 'required|numeric',
             'alamat' => 'required',
@@ -78,11 +78,11 @@ class DataSiswaController extends Controller
             'kode_thn_ajaran' => 'required',
             'email' => 'required|unique:users,email',
             'username' => 'required|unique:users,username',
-            'password' => 'required|unique:users,password',
+            'password' => 'required',
         ]);
         
         $user = User::create([
-            'name'=>$request->nama,
+            'name'=>$request->name,
             'username'=>$request->username,
             'email'=>$request->email,
             'password' => Hash::make($request->password),
@@ -93,7 +93,7 @@ class DataSiswaController extends Controller
         $datasiswa = Siswa::create([
             'nis'=>$request->nis,
             'nisn'=>$request->nisn,
-            'nama_siswa'=>$request->nama,
+            'nama_siswa'=>$request->name,
             'jeniskelamin'=>$request->jeniskelamin,
             'alamat'=>$request->alamat,
             'no_telp'=>$request->no_telp,
@@ -175,7 +175,7 @@ class DataSiswaController extends Controller
 
         if ($request->password == NULL) {
             $userupdate = User::where('id', $siswa->users_id)->update([
-                'name'=>$request->nama,
+                'name'=>$request->name,
                 'username'=>$request->username,
                 'email'=>$request->email,
                 'remember_token' => \Str::random(50),
@@ -185,7 +185,7 @@ class DataSiswaController extends Controller
 
         else {
             $userupdate = User::where('id', $siswa->users_id)->update([
-                'name'=>$request->nama,
+                'name'=>$request->name,
                 'username'=>$request->username,
                 'email'=>$request->email,
                 'password' => Hash::make($request->password),
@@ -197,7 +197,7 @@ class DataSiswaController extends Controller
         $siswaupdate = Siswa::where('id',$id)->update([
             'nis'=>$request->nis,
             'nisn'=>$request->nisn,
-            'nama_siswa'=>$request->nama,
+            'nama_siswa'=>$request->name,
             'jeniskelamin'=>$request->jeniskelamin,
             'alamat'=>$request->alamat,
             'no_telp'=>$request->no_telp,

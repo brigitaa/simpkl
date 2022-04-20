@@ -30,9 +30,9 @@
         </div>
         <div class="form-group">
             <label for="nama">Nama Lengkap<sup class="text-danger">*</sup></label>
-            <input type="text" class="form-control" id="inputAddress" name="nama" placeholder="Nama Lengkap" value="{{old('nama')}}">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap" value="{{old('name')}}">
             <div class="text-danger">
-                    @error('nama')
+                    @error('name')
                         {{ $message }}
                     @enderror
                 </div>

@@ -36,7 +36,7 @@
                             <a class="btn btn-warning btn-sm" href="{{route('tahunajaran.edit', $value->id)}}">Ubah</a>
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                             </form>
                         </td>
                     </tr>

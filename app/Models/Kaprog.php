@@ -12,6 +12,7 @@ class Kaprog extends Model
     protected $fillable = [
         'nip',
         'nama_kaprog',
-        'users_id'
+        'users_id',
+        'kode_keahlian'
     ];
 }
