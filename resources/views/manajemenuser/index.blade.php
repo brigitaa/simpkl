@@ -9,6 +9,12 @@
     </div>
     @endif
 
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        {{ $message }}
+    </div>
+    @endif
+
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">

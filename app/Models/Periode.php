@@ -18,4 +18,14 @@ class Periode extends Model
         'tanggal_mulai',
         'tanggal_selesai'
     ];
+
+    public function getTanggalMulaiAttribute($value)
+    {
+        return date('d-m-Y', strtotime($value));
+    }
+
+    public function getTanggalSelesaiAttribute($value)
+    {
+        return date('d-m-Y', strtotime($value));
+    }
 }

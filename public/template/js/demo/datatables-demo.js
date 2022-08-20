@@ -1,4 +1,2 @@
 // Call the dataTables jQuery plugin
-var table = $('#dataTable').DataTable({
-    "scrollX": true
-});
+var table = $('#dataTable').DataTable();

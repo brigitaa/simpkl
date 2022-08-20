@@ -14,4 +14,8 @@ class Kelas extends Model
         'nama_kelas',
         'kompetensi_keahlian_id'
     ];
+
+    // public function siswa() {
+	// 	return $this->belongsTo('Siswa', 'siswa_id');
+	// }
 }

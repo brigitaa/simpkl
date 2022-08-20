@@ -20,7 +20,7 @@ class CreateSiswaTable extends Migration
             $table->string('nama_siswa', 255);
             $table->enum('jeniskelamin', ['Laki-laki', 'Perempuan']);
             $table->string('alamat', 255);
-            $table->string('no_telp', 255);
+            $table->string('no_telp', 255)->nullable();
             $table->integer('users_id');
             $table->string('kode_kelas', 255);
             $table->string('kode_thn_ajaran', 255);

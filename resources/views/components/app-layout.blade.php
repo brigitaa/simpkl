@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/png" sizes="16x16"  href="{{asset('img/smk2.png')}}">
     <title>Sistem Informasi Manajemen Praktik Kerja Lapangan</title>
 
     <!-- Custom fonts for this template-->
@@ -22,11 +23,17 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('template/css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
-    <!-- <link href="{{asset('datapicker/css/bootstrap.min.css')}}" rel="stylesheet"> -->
-    <link href="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-    <!-- <link href="{{asset('datapicker/libraries/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+    
     <script src="{{asset('template/vendor/jquery/jquery.min.js')}}"></script>
-
+    
+    <!-- <link href="{{asset('datapicker/css/bootstrap.min.css')}}" rel="stylesheet"> -->
+    {{-- <link href="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet"> --}}
+    <!-- <link href="{{asset('datapicker/libraries/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet"> -->
+    
 </head>
 
 <body id="page-top">
@@ -101,30 +108,7 @@
 
     <!-- Bootstrap core JavaScript-->
     
-    <script src="{{asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{asset('template/js/sb-admin-2.min.js')}}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{{asset('template/vendor/chart.js/Chart.min.js')}}"></script>
-    <script src="{{asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-    <!-- <script src="{{asset('datapicker/js/jquery.min.js')}}"></script>
-    <script src="{{asset('datapicker/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('datapicker/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('datapicker/libraries/moment/moment.min.js')}}"></script>
-    <script src="{{asset('datapicker/js/custom.js')}}"></script>
-    <script src="{{asset('datapicker/libraries/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script> -->
-    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{asset('template/js/demo/chart-area-demo.js')}}"></script>
-    <script src="{{asset('template/js/demo/chart-pie-demo.js')}}"></script>
-    <script src="{{asset('template/js/demo/datatables-demo.js')}}"></script>
+    @include('layouts.javascript')
 
     
 </body>

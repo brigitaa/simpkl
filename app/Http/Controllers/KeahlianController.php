@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kompetensi_keahlian;
+use App\Models\Kelas;
 
 class KeahlianController extends Controller
 {
@@ -41,12 +42,12 @@ class KeahlianController extends Controller
             'nama_keahlian' => 'required|unique:kompetensi_keahlian,nama_keahlian'
         ]);
 
-    $datakeahlian = Kompetensi_keahlian::create([
-        'kode_keahlian'=>$request->kode_keahlian,
-        'nama_keahlian'=>$request->nama_keahlian
-    ]);
+        $datakeahlian = Kompetensi_keahlian::create([
+            'kode_keahlian'=>$request->kode_keahlian,
+            'nama_keahlian'=>$request->nama_keahlian
+        ]);
 
-    return redirect()->route('kompetensikeahlian.index')->with('success','Data kompetensi keahlian berhasil disimpan');
+        return redirect()->route('kompetensikeahlian.index')->with('success','Data kompetensi keahlian berhasil disimpan');
     }
 
     /**
@@ -105,8 +106,36 @@ class KeahlianController extends Controller
     public function destroy($id)
     {
         $kompetensi_keahlian=Kompetensi_keahlian::where('id', $id)->first();
-        $kompetensi_keahlian->delete();
+        $cekdata = Kelas::where('kompetensi_keahlian_id',$id)->first();
+        if ($cekdata != null) {
+            return redirect()->route('kompetensikeahlian.index')->with('error','Data kompetensi keahlian sedang digunakan');
+        }
+        else {
+            $kompetensi_keahlian->delete();
+            return redirect()->route('kompetensikeahlian.index')->with('success','Kompetensi keahlian berhasil dihapus');
+        }  
+    }
 
-        return redirect()->route('kompetensikeahlian.index')->with('success','Kompetensi keahlian berhasil dihapus');
+    public function get_data_keahlian (Request $request) {
+        $kompetensi_keahlian = Kompetensi_keahlian::all();
+        if($request->ajax()){
+            return datatables()->of($kompetensi_keahlian)
+                ->addIndexColumn()
+                ->editColumn('created_at', function ($request) {
+                    return $request->created_at->format('Y-m-d H:i:s'); // human readable format
+                  })
+                ->editColumn('updated_at', function ($request) {
+                    return $request->updated_at->format('Y-m-d H:i:s'); // human readable format
+                  })
+                ->addColumn('aksi', function($data){
+                    return  '<form action="' . route("kompetensikeahlian.destroy",$data->id) . '" method="POST">
+                            '.csrf_field().'
+                            '.method_field("DELETE").
+                            '<a href="' . route("kompetensikeahlian.edit", $data->id) . '" class="btn btn-sm btn-warning">Ubah</a>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin ingin menghapus data ini?\')">Hapus</button></form>';
+                    })
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
     }
 }

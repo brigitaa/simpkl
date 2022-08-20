@@ -74,8 +74,8 @@
                 </select>
             </div>
             <div class="form-group col-md-3">
-                <label for="inputZip">No. Telepon<sup class="text-danger">*</sup></label>
-                <input type="text" class="form-control" id="notelp" name="no_telp" required numeric value="{{$siswa->no_telp}}">
+                <label for="inputZip">No. Telepon</label>
+                <input type="text" class="form-control" id="notelp" name="no_telp" numeric value="{{$siswa->no_telp}}">
                 <div class="text-danger">
                     @error('no_telp')
                         {{ $message }}

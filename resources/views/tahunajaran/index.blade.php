@@ -9,6 +9,12 @@
     </div>
     @endif
 
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        {{ $message }}
+    </div>
+    @endif
+
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -22,6 +28,8 @@
                         <th>No.</th>
                         <th>Kode</th>
                         <th>Tahun Ajaran</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -31,6 +39,8 @@
                         <td>{{$key+1}}</td>
                         <td>{{$value->kode_thn_ajaran}}</td>
                         <td>{{$value->nama_thn_ajaran}}</td>
+                        <td>{{$value->created_at}}</td>
+                        <td>{{$value->updated_at}}</td>
                         <td>
                         <form action="{{ route('tahunajaran.destroy',$value->id) }}" method="POST">
                             <a class="btn btn-warning btn-sm" href="{{route('tahunajaran.edit', $value->id)}}">Ubah</a>

@@ -80,13 +80,13 @@
                 </div>
             </div>
             <div class="form-group col-md-3">
-                <label for="inputZip">No. Telepon<sup class="text-danger">*</sup></label>
+                <label for="inputZip">No. Telepon</label>
                 <input type="text" class="form-control" id="notelp" name="no_telp" placeholder="08xxxxxx" value="{{old('no_telp')}}">
-                <div class="text-danger">
+                {{-- <div class="text-danger">
                     @error('no_telp')
                         {{ $message }}
                     @enderror
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="form-group">
@@ -118,7 +118,7 @@
                 </div>
             </div>
             <div class="form-group col-md-4">
-                <label for="passoword">Password<sup class="text-danger">*</sup></label>
+                <label for="password">Password<sup class="text-danger">*</sup></label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password">
                 <div class="text-danger">
                     @error('password')

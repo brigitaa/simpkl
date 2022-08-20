@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Periode;
+use App\Models\Pengajuan;
 use Illuminate\Support\Carbon;
 
 class PeriodeController extends Controller
@@ -37,8 +38,14 @@ class PeriodeController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'tanggal_mulai' => 'required',
+            'tanggal_selesai' => 'required',
+        ]);
+
         $tanggal_mulai = Carbon::createFromFormat('d-m-Y', $request->tanggal_mulai);
         $tanggal_selesai = Carbon::createFromFormat('d-m-Y', $request->tanggal_selesai);
+
         $dataperiode = Periode::create([
             'tanggal_mulai'=>$tanggal_mulai,
             'tanggal_selesai'=>$tanggal_selesai
@@ -80,12 +87,15 @@ class PeriodeController extends Controller
     public function update(Request $request, $id)
     {
         $periode = Periode::where('id', $id)->first();
+
         $tanggal_mulai = Carbon::createFromFormat('d-m-Y', $request->tanggal_mulai);
         $tanggal_selesai = Carbon::createFromFormat('d-m-Y', $request->tanggal_selesai);
+
         $periodeupdate = Periode::where('id',$id)->update([
             'tanggal_mulai'=>$tanggal_mulai,
             'tanggal_selesai'=>$tanggal_selesai
         ]);
+        
         return redirect()->route('periode.index')->with('success','Data periode PKL berhasil diubah');
     }
 
@@ -98,8 +108,13 @@ class PeriodeController extends Controller
     public function destroy($id)
     {
         $periode=Periode::where('id', $id)->first();
-        $periode->delete();
-
-        return redirect()->route('periode.index')->with('success','Periode PKL berhasil dihapus');
+        $cekdata = Pengajuan::where('periode_id',$id)->first();
+        if ($cekdata != null) {
+            return redirect()->route('periode.index')->with('error','Data periode PKL sedang digunakan');
+        }
+        else {
+            $periode->delete();
+            return redirect()->route('periode.index')->with('success','Periode PKL berhasil dihapus');
+        }     
     }
 }

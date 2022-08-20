@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Siswa;
+use App\Models\Kaprog;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Auth;
 
 class UserController extends Controller
 {
@@ -138,8 +141,24 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user=User::where('id', $id)->first();
-        $user->delete();
 
-        return redirect()->route('manajemenuser.index')->with('success','Data user berhasil dihapus');
+        $cekdatasiswa = Siswa::where('users_id',$id)->first();
+        $cekdatakaprog = Kaprog::where('users_id',$id)->first();
+        $cekdatalogin = User::where('id', Auth::user()->id)->first();
+
+        if ($cekdatasiswa != null) {
+            return redirect()->route('manajemenuser.index')->with('error','Data user sedang digunakan');
+        }
+        elseif ($cekdatakaprog != null) {
+            return redirect()->route('manajemenuser.index')->with('error','Data user sedang digunakan');
+        }
+        elseif ($cekdatalogin != null) {
+            return redirect()->route('manajemenuser.index')->with('error','Data user sedang digunakan');
+        }
+        else {
+            $user->delete();
+            return redirect()->route('manajemenuser.index')->with('success','Data user berhasil dihapus');
+        }   
     }
 }
+

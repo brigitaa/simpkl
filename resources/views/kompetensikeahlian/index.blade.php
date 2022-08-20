@@ -9,6 +9,12 @@
     </div>
     @endif
 
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        {{ $message }}
+    </div>
+    @endif
+
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -16,21 +22,25 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="keahlianTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>No.</th>
                         <th>Kode</th>
                         <th>Kompetensi Keahlian</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($kompetensi_keahlian as $key => $value)
+                @foreach($kompetensi_keahlian as $value)
                     <tr>
-                        <td>{{$key+1}}</td>
+                        <td>{{$loop->iteration}}</td>
                         <td>{{$value->kode_keahlian}}</td>
                         <td>{{$value->nama_keahlian}}</td>
+                        <td>{{$value->created_at}}</td>
+                        <td>{{$value->updated_at}}</td>
                         <td>
                         <form action="{{ route('kompetensikeahlian.destroy',$value->id) }}" method="POST">
                             <a class="btn btn-warning btn-sm" href="{{route('kompetensikeahlian.edit', $value->id)}}">Ubah</a>
@@ -45,6 +55,72 @@
             </table>
         </div>
     </div>
+    
 </div>
-
+@push('scripts')
+<script>
+    var table = $('#keahlianTable').DataTable({
+        "scrollX": true,
+        dom: '<lfB<t>ip>',
+        "responsive": true,
+        orderable: [
+            [5, "asc"]
+        ],
+        lengthMenu: [
+            [ 10, 25, 50, 100, 1000, -1 ],
+            [ '10', '25', '50', '100', '1000', 'All' ]
+        ],
+        columnDefs: [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": 5,
+            },
+        ],
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Ekspor',
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3, 4]
+                }
+            },
+            {
+                extend: 'pdf',
+                text: 'Pdf',
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3, 4]
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all'
+                    },
+                    columns: [ 0, 1, 2, 3, 4]
+                }
+            },
+        ],
+        language: {
+            "searchPlaceholder": "",
+            "zeroRecords": "Tidak ditemukan data yang sesuai",
+            "emptyTable": "Tidak terdapat data di tabel"
+        }
+    });
+</script>
+@endpush
 </x-app-layout>
+

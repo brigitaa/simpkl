@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\Kompetensi_keahlian;
+use App\Models\Siswa;
 
 class KelasController extends Controller
 {
@@ -117,8 +118,13 @@ class KelasController extends Controller
     public function destroy($id)
     {
         $kelas=Kelas::where('id', $id)->first();
-        $kelas->delete();
-
-        return redirect()->route('kelas.index')->with('success','Kelas berhasil dihapus');
+        $cekdata = Siswa::where('kode_kelas',$kelas->kode_kelas)->first();
+        if ($cekdata != null) {
+            return redirect()->route('kelas.index')->with('error','Data kelas sedang digunakan');
+        }
+        else {
+            $kelas->delete();
+            return redirect()->route('kelas.index')->with('success','Kelas berhasil dihapus');
+        }  
     }
 }

@@ -41,19 +41,18 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="kompetensi_keahlian">Kompetensi Keahlian<sup class="text-danger">*</sup></label>
-                <select id="kompetensi_keahlian" class="form-control" name="kode_keahlian">
-                    <option value="">--Pilih--</option>
+                <select id="kompetensi_keahlian" class="form-control" name="kompetensi_keahlian_id">
                     <option value="" disabled>--Pilih--</option>
                     @foreach($kompetensi_keahlian as $key => $value)
-                    @if ($value->kode_keahlian==$kaprog->kode_keahlian)
-                        <option value="{{$value->kode_keahlian}}" selected>{{$value->nama_keahlian}}</option>
+                    @if ($value->id==$kaprog->kompetensi_keahlian_id)
+                        <option value="{{$value->id}}" selected>{{$value->nama_keahlian}}</option>
                     @else
-                        <option value="{{$value->kode_keahlian}}">{{$value->nama_keahlian}}</option>
+                        <option value="{{$value->id}}">{{$value->nama_keahlian}}</option>
                     @endif
                     @endforeach
                 </select>
                 <div class="text-danger">
-                    @error('kode_keahlian')
+                    @error('nama_keahlian')
                         {{ $message }}
                     @enderror
                 </div>

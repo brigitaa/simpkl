@@ -18,7 +18,7 @@ class KaprogController extends Controller
     public function index()
     {
         $kompetensi_keahlian = Kompetensi_keahlian::all();
-        $kaprog = Kaprog::leftjoin('kompetensi_keahlian', 'kompetensi_keahlian.kode_keahlian', 'kaprog.kode_keahlian')
+        $kaprog = Kaprog::leftjoin('kompetensi_keahlian', 'kompetensi_keahlian.id', 'kaprog.kompetensi_keahlian_id')
                         ->select('kaprog.*','kompetensi_keahlian.nama_keahlian')
                         ->get();
         return view('kaprog.index', compact('kaprog', 'kompetensi_keahlian'));
@@ -46,7 +46,7 @@ class KaprogController extends Controller
         $request->validate([
             'nip' => 'required|numeric|unique:kaprog,nip',
             'name' => 'required',
-            'kode_keahlian' => 'required',
+            'kompetensi_keahlian_id' => 'required',
             'email' => 'required|unique:users,email',
             'username' => 'required|unique:users,username',
             'password' => 'required',
@@ -61,11 +61,13 @@ class KaprogController extends Controller
             'role_id'=>'3'
         ]);
 
+        $keahlian = Kompetensi_keahlian::where('id', $request->kompetensi_keahlian_id)->first();
+
         $datakaprog = Kaprog::create([
             'nip'=>$request->nip,
             'nama_kaprog'=>$request->name,
             'users_id'=>$user->id,
-            'kode_keahlian'=>$request->kode_keahlian
+            'kompetensi_keahlian_id'=>$keahlian->id
         ]);
 
         return redirect()->route('kaprog.index')->with('success','Data ketua program keahlian berhasil disimpan');
@@ -107,6 +109,7 @@ class KaprogController extends Controller
     {
         $kaprog = Kaprog::where('id',$id)->first();
         $user = User::where('id', $kaprog->users_id)->first();
+        $keahlian = Kompetensi_keahlian::where('id', $request->kompetensi_keahlian_id)->first();
 
         $request->validate([
             'nip' => 'required|numeric|unique:kaprog,nip,'. $id,
@@ -139,7 +142,7 @@ class KaprogController extends Controller
             'nip'=>$request->nip,
             'nama_kaprog'=>$request->name,
             'users_id'=>$user->id,
-            'kode_keahlian'=>$request->kode_keahlian
+            'kompetensi_keahlian_id'=>$keahlian->id
         ]);
 
         return redirect()->route('kaprog.index')->with('success','Data ketua program keahlian berhasil diubah');

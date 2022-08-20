@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Kaprog;
 use App\Models\Kelas;
 use App\Models\Thn_ajaran;
+use App\Models\Pengajuan;
 use Illuminate\Support\Facades\Hash;
 use App\Imports\SiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,7 +25,7 @@ class DataSiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $kelas = Kelas::all();
         $tahunajaran = Thn_ajaran::all();
@@ -31,18 +33,139 @@ class DataSiswaController extends Controller
                         ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
                         ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
                         ->get();
+
+        if (!$request->all() || ($request->nama_kelas == '' && $request->nama_thn_ajaran == '')){
+            $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                        ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                        ->get();    
+        }
+
+        elseif ($request->nama_kelas != NULL && $request->nama_thn_ajaran == NULL){
+            $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                        ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                        ->where('nama_kelas', '=', $request->nama_kelas)
+                        ->get();              
+        }
+
+        elseif ($request->nama_kelas == NULL && $request->nama_thn_ajaran != NULL){
+            $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                        ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                        ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
+                        ->get();             
+        }
+
+        else {
+            $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                        ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                        ->where('nama_kelas', '=', $request->nama_kelas)
+                        ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
+                        ->get();           
+        }
 
         return view('datasiswaPKL.index', compact('siswa', 'kelas', 'tahunajaran'));
     }
 
-    public function lihat()
+    public function lihat(Request $request)
     {
-        $kelas = Kelas::all();
+        $user_id = Auth::user()->id;
+        $user = User::where('id', $user_id)->first();
+        $role = Role::where('id',$user->role_id)->first();
+        session(['role' => $role->nama_role]);
+
+        if ($role->nama_role == 'Kaprog') {
+            $datakaprog = Kaprog::where('users_id', Auth::user()->id)->first();
+            $kelas= Kelas::leftjoin('kompetensi_keahlian', 'kompetensi_keahlian.id', 'kelas.kompetensi_keahlian_id')
+                                         ->where('kelas.kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
+                                         ->get();
+        }
+        else {
+            $kelas = Kelas::all();
+        }
+
         $tahunajaran = Thn_ajaran::all();
-        $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                        ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
-                        ->get();
+
+        if (!$request->all() || ($request->nama_kelas == '' && $request->nama_thn_ajaran == '')){
+            if ($role->nama_role == 'Kaprog') {
+                $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                            ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
+                            ->get();
+            }
+    
+            else {
+                $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                            ->get();    
+            }
+        }
+
+        elseif ($request->nama_kelas != NULL && $request->nama_thn_ajaran == NULL){
+            if ($role->nama_role == 'Kaprog') {
+                $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                            ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
+                            ->where('nama_kelas', '=', $request->nama_kelas)
+                            ->get();
+            }
+    
+            else {
+                $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                            ->where('nama_kelas', '=', $request->nama_kelas)
+                            ->get();  
+            }
+            
+        }
+
+        elseif ($request->nama_kelas == NULL && $request->nama_thn_ajaran != NULL){
+            if ($role->nama_role == 'Kaprog') {
+                $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                            ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
+                            ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
+                            ->get();
+            }
+    
+            else {
+                $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                            ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
+                            ->get(); 
+            }
+            
+        }
+
+        else {
+            if ($role->nama_role == 'Kaprog') {
+                $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                            ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
+                            ->where('nama_kelas', '=', $request->nama_kelas)
+                            ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
+                            ->get();
+            }
+    
+            else {
+                $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
+                            ->where('nama_kelas', '=', $request->nama_kelas)
+                            ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
+                            ->get();
+            }
+            
+        }
 
         return view('datasiswaPKL.lihat', compact('siswa', 'kelas', 'tahunajaran'));
     }
@@ -72,7 +195,7 @@ class DataSiswaController extends Controller
             'nisn' => 'required|numeric|unique:siswa,nisn',
             'name' => 'required',
             'jeniskelamin' => 'required',
-            'no_telp' => 'required|numeric',
+            'no_telp' => 'nullable|numeric',
             'alamat' => 'required',
             'kode_kelas' => 'required',
             'kode_thn_ajaran' => 'required',
@@ -90,18 +213,25 @@ class DataSiswaController extends Controller
             'role_id'=>'5'
         ]);
 
+        // if($request->has('no_telp')){
+        //     $no_telp = $request->no_telp;
+        // }
+        // else {
+        //     $no_telp = '';
+        // }
+
         $datasiswa = Siswa::create([
             'nis'=>$request->nis,
             'nisn'=>$request->nisn,
             'nama_siswa'=>$request->name,
             'jeniskelamin'=>$request->jeniskelamin,
             'alamat'=>$request->alamat,
-            'no_telp'=>$request->no_telp,
+            'no_telp'=> $request->no_telp,
             'users_id'=>$user->id,
             'kode_kelas'=>$request->kode_kelas,
             'kode_thn_ajaran'=>$request->kode_thn_ajaran
         ]);
-
+        
         return redirect()->route('datasiswaPKL.index')->with('success','Data siswa PKL berhasil disimpan');
     }
 
@@ -168,7 +298,7 @@ class DataSiswaController extends Controller
         $request->validate([
             'nis' => 'numeric|unique:siswa,nis,'. $id,
             'nisn' => 'numeric|unique:siswa,nisn,'. $id,
-            'no_telp' => 'numeric|digits_between:11,13'. $id,
+            'no_telp' => 'nullable|numeric|digits_between:11,13'. $id,
             'email' => 'unique:users,email,'.$siswa->users_id,
             'username' => 'unique:users,username,'.$siswa->users_id,
         ]);
@@ -219,9 +349,15 @@ class DataSiswaController extends Controller
     {
         $siswa=Siswa::where('id', $id)->first();
         $user = User::where('id', $siswa->users_id)->first();
-        $siswa->delete();
-        $user->delete();
+        $cekdata = Pengajuan::where('siswa_id',$id)->first();
 
-        return redirect()->route('datasiswaPKL.index')->with('success','Data siswa PKL berhasil dihapus');
+        if ($cekdata != null) {
+            return redirect()->route('datasiswaPKL.index')->with('error','Data siswa PKL sedang digunakan');
+        }
+        else {
+            $siswa->delete();
+            $user->delete();
+            return redirect()->route('datasiswaPKL.index')->with('success','Data siswa PKL berhasil dihapus');
+        }  
     }
 }

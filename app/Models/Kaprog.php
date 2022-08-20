@@ -13,6 +13,6 @@ class Kaprog extends Model
         'nip',
         'nama_kaprog',
         'users_id',
-        'kode_keahlian'
+        'kompetensi_keahlian_id'
     ];
 }

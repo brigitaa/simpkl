@@ -40,17 +40,12 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="kompetensi_keahlian">Kompetensi Keahlian<sup class="text-danger">*</sup></label>
-                <select id="kompetensi_keahlian" class="form-control" name="kode_keahlian" value="{{old('kode_keahlian')}}">
+                <select id="kompetensi_keahlian" class="form-control" name="kompetensi_keahlian_id" required value="{{old('kompetensi_keahlian_id')}}">
                     <option value="">--Pilih--</option>
                     @foreach($kompetensi_keahlian as $key => $value)
-                        <option value="{{$value->kode_keahlian}}">{{$value->nama_keahlian}}</option>
+                        <option value="{{$value->id}}">{{$value->nama_keahlian}}</option>
                     @endforeach
                 </select>
-                <div class="text-danger">
-                    @error('kode_keahlian')
-                        {{ $message }}
-                    @enderror
-                </div>
             </div>
         </div>
         <div class="form-row">

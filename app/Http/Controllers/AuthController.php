@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -23,13 +24,14 @@ class AuthController extends Controller
         ]);
         
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
+            $request->session()->regenerate();
             $user_id = Auth::user()->id;
             $user = User::where('id', $user_id)->first();
             $role = Role::where('id',$user->role_id)->first();
             session(['role' => $role->nama_role]);
             // dd($role->nama_role);
             if ($role->nama_role == 'Admin') {
-                return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
+                return redirect()->intended(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
             }
             elseif ($role->nama_role == 'Ketua Pokja PKL') {
                 return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
@@ -37,7 +39,7 @@ class AuthController extends Controller
             elseif ($role->nama_role == 'Kaprog') {
                 return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
             }
-            elseif ($role->nama_role == 'Kaprog') {
+            elseif ($role->nama_role == 'Tata Usaha') {
                 return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
             }
             else {

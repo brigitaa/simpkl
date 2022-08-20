@@ -9,7 +9,13 @@
     </div>
     @endif
 
-<!-- DataTales Example -->
+    @if ($message = Session::get('error'))
+    <div class="alert alert-danger">
+        {{ $message }}
+    </div>
+    @endif
+
+<!-- DataTables Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Daftar Periode PKL</h6>
@@ -22,6 +28,8 @@
                         <th>No.</th>
                         <th>Tanggal Mulai PKL</th>
                         <th>Tanggal Selesai PKL</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -29,8 +37,10 @@
                 @foreach($periode as $key => $value)
                     <tr>
                         <td>{{$key+1}}</td>
-                        <td>{{$value->tanggal_mulai->format('d-m-Y')}}</td>
-                        <td>{{$value->tanggal_selesai->format('d-m-Y')}}</td>
+                        <td>{{$value->tanggal_mulai}}</td>
+                        <td>{{$value->tanggal_selesai}}</td>
+                        <td>{{$value->created_at}}</td>
+                        <td>{{$value->updated_at}}</td>
                         <td>
                         <form action="{{ route('periode.destroy',$value->id) }}" method="POST">
                             <a class="btn btn-warning btn-sm" href="{{route('periode.edit', $value->id)}}">Ubah</a>

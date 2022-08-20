@@ -26,7 +26,7 @@ class SiswaImport implements ToCollection, WithHeadingRow
             '*.nisn' => 'required|numeric|unique:siswa,nisn',
             '*.nama_siswa' => 'required',
             '*.jeniskelamin' => 'required',
-            '*.no_telp' => 'required|numeric',
+            '*.no_telp' => 'nullable|numeric',
             '*.alamat' => 'required',
             '*.kode_kelas' => 'required',
             '*.kode_thn_ajaran' => 'required',

@@ -8,6 +8,12 @@ body {
   white-space: nowrap;
 }
 
+div.dataTables_wrapper {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
 @-webkit-keyframes sk-scaleout {
     0% { -webkit-transform: scale(0) }
     100% {
@@ -35,4 +41,22 @@ body {
 .datepicker2 {
   background-color: #fff ; 
   color: #333 ;
+}
+
+.button-datatables {
+  color:#333;
+  background-color: white;
+}
+
+.button-datatables:hover {
+  color:#333;
+  background-color: whitesmoke;
+}
+
+div .dt-buttons{
+  float : left;
+}
+
+.dataTables_length{
+  float : left;
 }

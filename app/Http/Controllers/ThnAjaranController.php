@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Thn_ajaran;
+use App\Models\Siswa;
 
 class ThnAjaranController extends Controller
 {
@@ -105,8 +106,13 @@ class ThnAjaranController extends Controller
     public function destroy($id)
     {
         $tahunajaran=Thn_ajaran::where('id', $id)->first();
-        $tahunajaran->delete();
-
-        return redirect()->route('tahunajaran.index')->with('success','Tahun Ajaran berhasil dihapus');
+        $cekdata = Siswa::where('kode_thn_ajaran',$tahunajaran->kode_thn_ajaran)->first();
+        if ($cekdata != null) {
+            return redirect()->route('tahunajaran.index')->with('error','Data tahun ajaran sedang digunakan');
+        }
+        else {
+            $dudi->delete();
+            return redirect()->route('tahunajaran.index')->with('success','Tahun Ajaran berhasil dihapus');
+        }  
     }
 }
