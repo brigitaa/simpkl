@@ -66,7 +66,8 @@ class StatusPKLController extends Controller
      */
     public function edit($id)
     {
-        //
+        $statuspkl = Status_pkl::where('id', $id)->first();
+        return view('statusPKL.ubah', compact('statuspkl'));
     }
 
     /**
@@ -78,7 +79,13 @@ class StatusPKLController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $statuspkl = Status_pkl::where('id', $id)->first();
+
+        $statuspklupdate = Status_pkl::where('id',$id)->update([
+            'nama_status_pkl' => $request->nama_status_pkl
+        ]);
+
+        return redirect()->route('statusPKL.index')->with('success','Status PKL berhasil diubah');
     }
 
     /**
@@ -89,6 +96,9 @@ class StatusPKLController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $statuspkl = Status_pkl::where('id', $id)->first();
+
+        $statuspkl->delete();
+        return redirect()->route('statusPKL.index')->with('success','Status PKL berhasil dihapus');
     }
 }

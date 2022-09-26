@@ -12,6 +12,6 @@ class Penempatan extends Model
     protected $fillable = [
         'konfirmasi_dudi_id',
         'guru_monitoring_id',
-        'status_pkl'
+        'status_pkl_id'
     ];
 }

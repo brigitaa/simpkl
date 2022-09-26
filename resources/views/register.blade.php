@@ -1,8 +1,8 @@
 <x-login-layout>
     <div class="text-center">
-        <img src="img/smk2.png" width="75">
+        <img src="{{ asset('img/smk2.png') }}" width="75">
     </div>
-    <h5 class="text-center mt-2" style="color: #3E689A;"> Sistem Informasi Manajemen Praktik Kerja Lapangan <br>SMK Negeri 2 Balikpapan </h5>
+    <h5 class="text-center mt-2" style="color: #4e73df;"> Sistem Informasi Manajemen Praktik Kerja Lapangan <br>SMK Negeri 2 Balikpapan </h5>
     @if ($message = Session::get('success'))
     <div class="alert alert-success">
         {{ $message }}
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="text-center">
-            <button class="btn btn-primary btn-block btn-md" type="submit">Daftar Akun</button>
+            <button class="btn btn-block" style="background-color: #4e73df; color:white" type="submit">Daftar Akun</button>
         </div>
         <br>Sudah punya akun? <a href="{{url('/')}}">Masuk</a>
     </form>

@@ -46,7 +46,13 @@
                         <td>
                             <a href="{{route('konfirmasidudi.file_balasandudi', $value->id)}}">{{$value->balasan_dudi}}</a>
                         </td>
-                        <td>{{$value->status}}</td>
+                        <td>
+                            @if ($value->status == 'Disetujui')
+                                <span class="badge badge-success">{{$value->status}}</span>
+                            @else
+                                <span class="badge badge-danger">{{$value->status}}</span>
+                            @endif
+                        </td>
                         {{-- <td>
                             <form action="{{ route('konfirmasidudi.destroy',$value->id) }}" method="POST">
                                 <a class="btn btn-warning btn-sm" href="{{route('konfirmasidudi.edit', $value->id)}}">Ubah</a>

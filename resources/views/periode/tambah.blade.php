@@ -78,12 +78,12 @@
     </div>
 </div>
 @push('scripts')
-<script src="{{asset('datapicker/js/jquery.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('datepicker/js/bootstap.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('datapicker/js/bootstrap.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('datapicker/libraries/moment/moment.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('datapicker/js/custom.js')}}" type="text/javascript"></script>
-<script src="{{asset('datapicker/libraries/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}" type="text/javascript"></script>
-<script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('datapicker/js/jquery.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('datepicker/js/bootstap.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('datapicker/js/bootstrap.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('datapicker/libraries/moment/moment.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('datapicker/js/custom.js')}}" type="text/javascript"></script>
+    <script src="{{asset('datapicker/libraries/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('datepicker/js/bootstrap-datepicker.min.js')}}" type="text/javascript"></script>
 @endpush
 </x-app-layout>

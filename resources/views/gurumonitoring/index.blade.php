@@ -22,7 +22,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="gurumonitoringTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -46,12 +46,7 @@
                         <td>{{$value->created_at}}</td>
                         <td>{{$value->updated_at}}</td>
                         <td>
-                            <form action="{{ route('gurumonitoring.destroy',$value->id) }}" method="POST">
-                                <a class="btn btn-warning btn-sm" href="{{route('gurumonitoring.edit', $value->id)}}">Ubah</a>
-                                @csrf
-                                @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                            </form>
+                            <a class="btn btn-warning btn-sm" href="{{route('gurumonitoring.edit', $value->id)}}">Ubah</a>
                         </td>
                     </tr>
                 @endforeach
@@ -60,5 +55,68 @@
         </div>
     </div>
 </div>
-
+@push('scripts')
+<script>
+    var table = $('#gurumonitoringTable').DataTable({
+        "scrollX": true,
+        dom: '<lfB<t>ip>',
+        "responsive": true,
+        orderable: [
+            [7, "asc"]
+        ],
+        lengthMenu: [
+            [ 10, 25, 50, 100, 1000, -1 ],
+            [ '10', '25', '50', '100', '1000', 'All' ]
+        ],
+        columnDefs: [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": 7,
+            },
+        ],
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Ekspor',
+                title: "Data Guru Monitoring PKL SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                }
+            },
+            {
+                extend: 'pdf',
+                text: 'PDF',
+                title: "Data Guru Monitoring PKL SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                title: "Data Guru Monitoring PKL SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3, 4, 5, 6]
+                }
+            }
+        ]
+    });
+</script>
+@endpush
 </x-app-layout>

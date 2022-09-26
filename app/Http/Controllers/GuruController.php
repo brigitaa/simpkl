@@ -110,7 +110,7 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        $guru = Guru::where('id', $id)->first();
+        $guru = Guru::find($id);
 
         $guru->delete();
         return redirect()->route('guru.index')->with('success','Guru berhasil dihapus');

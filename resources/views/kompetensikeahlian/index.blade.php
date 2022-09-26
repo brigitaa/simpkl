@@ -81,44 +81,42 @@
             {
                 extend: 'excel',
                 text: 'Ekspor',
+                title: "Data Kompetensi Keahlian SMKN 2 Balikpapan",
                 className: "button-datatables",
                 exportOptions: {
                     modifier: {
                         page: 'all',
                         search: 'none'
                     },
-                    columns: [ 0, 1, 2, 3, 4]
+                    columns: [ 0, 1, 2]
                 }
             },
             {
                 extend: 'pdf',
                 text: 'Pdf',
+                title: "Data Kompetensi Keahlian SMKN 2 Balikpapan",
                 className: "button-datatables",
                 exportOptions: {
                     modifier: {
                         page: 'all',
                         search: 'none'
                     },
-                    columns: [ 0, 1, 2, 3, 4]
+                    columns: [ 0, 1, 2]
                 }
             },
             {
                 extend: 'print',
                 text: 'Print',
+                title: "Data Kompetensi Keahlian SMKN 2 Balikpapan",
                 className: "button-datatables",
                 exportOptions: {
                     modifier: {
                         page: 'all'
                     },
-                    columns: [ 0, 1, 2, 3, 4]
+                    columns: [ 0, 1, 2]
                 }
             },
-        ],
-        language: {
-            "searchPlaceholder": "",
-            "zeroRecords": "Tidak ditemukan data yang sesuai",
-            "emptyTable": "Tidak terdapat data di tabel"
-        }
+        ]
     });
 </script>
 @endpush

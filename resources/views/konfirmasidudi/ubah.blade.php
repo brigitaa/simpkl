@@ -108,11 +108,11 @@
                 <select id="status_balasan_dudi" class="form-control" name="status_balasan_dudi">
                     <option value="" disabled>--Pilih--</option>
                     @if ($konfirmasidudi->status == "Disetujui")
-                    <option value="1" selected>Disetujui</option>
-                    <option value="2">Ditolak</option>
+                    <option value="Disetujui" selected>Disetujui</option>
+                    <option value="Ditolak">Ditolak</option>
                     @else
-                    <option value="1">Disetujui</option>
-                    <option value="2" selected>Ditolak</option>
+                    <option value="Disetujui">Disetujui</option>
+                    <option value="Ditolak" selected>Ditolak</option>
                     @endif
                 </select>
             </div>

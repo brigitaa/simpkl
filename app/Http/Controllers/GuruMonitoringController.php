@@ -86,20 +86,11 @@ class GuruMonitoringController extends Controller
     public function update(Request $request, $id)
     {
         $gurumonitoring = Guru_monitoring::where('id', $id)->first();
-        $guru = Guru::where('id', $gurumonitoring->guru_id)->first();
+        $guru = Guru::where('id', $request->guru_id)->first();
 
         $gurumonitoring->update([
-            'guru_id'=>$request->guru_id
+            'guru_id'=>$guru->id
         ]);
-
-
-        // if ($request->guru_id != NULL) {
-        //     $penempatan = Penempatan::update([
-        //         'guru_monitoring_id'=>$request->guru_id
-        //     ]);
-        //     // dd($penempatan);
-        // }
-        
         
         return redirect()->route('gurumonitoring.index')->with('success','Data Guru Monitoring berhasil diubah');
     }

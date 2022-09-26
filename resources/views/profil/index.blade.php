@@ -13,7 +13,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Ubah Profil</h6>
     </div>
     <div class="card-body">
-    <form action="{{route('profil.update', $user->id)}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('profil.update', $user->id)}}" method="POST">
     @method('PUT')
     @csrf
         @if (session('role') == 'Kaprog')
@@ -46,6 +46,12 @@
             <label for="password" class="col-sm-2 col-form-label">Password</label>
             <div class="col-sm-10">
                 <input type="password" class="form-control" id="password" name="password">
+                <small class="form-text text-muted">Dikosongkan jika tidak ingin merubah password.</small>
+                <div class="text-danger">
+                    @error('password')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
         </div>
         <div class="text-right">
@@ -62,7 +68,9 @@
         <h6 class="m-0 font-weight-bold text-primary">Ubah Profil</h6>
     </div>
     <div class="card-body">
-        <form>
+        <form action="{{route('profil.update', $user->id)}}" method="POST">
+        @method('PUT')
+        @csrf
             <h6 class="mb-3 font-weight-bold text-primary">Data Diri</h6>
             <div class="form-group row">
                 <label for="nis" class="col-sm-4 col-form-label">Nomor Induk Siswa (NIS)<sup class="text-danger">*</sup></label>
@@ -73,7 +81,7 @@
             <div class="form-group row">
                 <label for="name" class="col-sm-4 col-form-label">Nomor Induk Siswa Nasional (NISN)<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="name" name="name" required value="{{$siswa->nisn}}">
+                    <input type="text" class="form-control" id="name" name="nisn" required value="{{$siswa->nisn}}">
                 </div>
             </div>
             <div class="form-group row">
@@ -124,9 +132,15 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="password" class="col-sm-4 col-form-label">Password<br>(dikosongkan jika tidak ingin merubah)</label>
+                <label for="password" class="col-sm-4 col-form-label">Password</label>
                 <div class="col-sm-8">
                     <input type="password" class="form-control" id="password" name="password">
+                    <small class="form-text text-muted">Dikosongkan jika tidak ingin merubah password.</small>
+                    <div class="text-danger">
+                        @error('password')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
             </div>
             <div class="text-right">

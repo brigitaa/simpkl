@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 use App\Models\User;
+use App\Models\Role;
 use App\Models\Kaprog;
 use App\Models\Siswa;
 
@@ -96,7 +98,13 @@ class ProfilController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail(Auth::user()->id);
+        $user_id = Auth::user()->id;
+
+        $user = User::findOrFail($user_id);
+
+        $datauser = User::where('id', $user_id)->first();
+        $role = Role::where('id',$datauser->role_id)->first();
+        session(['role' => $role->nama_role]);
 
         if ($request->password == NULL) {
             $user->update([
@@ -107,6 +115,10 @@ class ProfilController extends Controller
         }
 
         else {
+            $request->validate([
+                'password' => 'min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
+            ]);
+            
             $user->update([
                 'name'=>$request->name,
                 'username'=>$request->username,
@@ -115,6 +127,26 @@ class ProfilController extends Controller
             ]);
         }
 
+        if ($role->nama_role == 'Kaprog') {
+            $kaprog = Kaprog::where('users_id', $user_id)->first();
+            $kaprog->update([
+                'nip'=>$request->nip,
+                'nama_kaprog'=>$request->name,
+            ]);
+        }
+
+        if ($role->nama_role == 'Siswa') {
+            $siswa = Siswa::where('users_id', $user_id)->first();
+            $siswa->update([
+                'nis'=>$request->nis,
+                'nisn'=>$request->nisn,
+                'nama_siswa'=>$request->name,
+                'jeniskelamin'=>$request->jeniskelamin,
+                'alamat'=>$request->alamat,
+                'no_telp'=>$request->no_telp,
+            ]);
+        }
+        
         return redirect()->route('profil.index')->with('success','Profil berhasil diubah');
     }
 

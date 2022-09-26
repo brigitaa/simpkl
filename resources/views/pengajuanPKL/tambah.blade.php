@@ -41,7 +41,7 @@
         <div class="form-group row">
             <label for="periode" class="col-sm-4 col-form-label">Periode PKL</label>
             <div class="col-sm-3">
-                <select id="tanggal_mulai" class="form-control" name="periode_id" value="{{old('tanggal_mulai')}}">
+                <select id="tanggal_mulai" class="form-control" name="periode_id" value="{{old('tanggal_mulai')}}" required>
                     <option value="">--Pilih--</option>
                     @foreach($periode as $key => $value)
                         <option value="{{$value->id}}">{{$value->tanggal_mulai}}</option>
@@ -58,7 +58,7 @@
         <div class="form-group row">
             <label for="nama_dudi" class="col-sm-4 col-form-label">Nama DU/DI</label>
             <div class="col-sm-8">
-                <select id="nama_dudi" class="form-control" name="dudi_id" value="{{old('nama_dudi')}}">
+                <select id="nama_dudi" class="form-control" name="dudi_id" value="{{old('nama_dudi')}}" required>
                     <option value="">--Pilih--</option>
                     @foreach($dudi as $key => $value)
                         <option value="{{$value->id}}">{{$value->nama_dudi}}</option>
@@ -83,6 +83,11 @@
             <label for="pernyataan_ortu" class="col-sm-4 col-form-label">Surat Pernyataan Orang Tua</label>
             <div class="col-sm-4">
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" name="pernyataan_ortu">
+                <div class="text-danger">
+                    @error('pernyataan_ortu')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
             <div class="col-sm-4">
                 <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.pernyataanortu')}}">
@@ -93,6 +98,11 @@
             <label for="pernyataan_siswa" class="col-sm-4 col-form-label">Surat Pernyataan Siswa</label>
             <div class="col-sm-4">
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" name="pernyataan_siswa">
+                <div class="text-danger">
+                    @error('pernyataan_siswa')
+                        {{ $message }}
+                    @enderror
+                </div>
             </div>
             <div class="col-sm-4">
                 <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.pernyataansiswa')}}">

@@ -22,7 +22,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="guruTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -56,5 +56,67 @@
         </div>
     </div>
 </div>
-
+@push('scripts')
+<script>
+    var table = $('#guruTable').DataTable({
+        "scrollX": true,
+        dom: '<lfB<t>ip>',
+        "responsive": true,
+        orderable: [
+            [5, "asc"]
+        ],
+        lengthMenu: [
+            [ 10, 25, 50, 100, 1000, -1 ],
+            [ '10', '25', '50', '100', '1000', 'All' ]
+        ],
+        columnDefs: [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": 5,
+            },
+        ],
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Ekspor',
+                title: "Data Guru SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3, 4]
+                }
+            },
+            {
+                extend: 'pdf',
+                text: 'Pdf',
+                title: "Data Guru SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3, 4]
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                title: "Data Guru SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all'
+                    },
+                    columns: [ 0, 1, 2, 3, 4]
+                }
+            },
+        ]
+    });
+</script>
+@endpush
 </x-app-layout>

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\iterasi1;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
@@ -15,13 +15,6 @@ class AuthTest extends TestCase
      *
      * @return void
      */
-    public function test_login_screen_can_be_rendered()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function test_login_admin()
     {
         $user = User::where('role_id', '1')->first();
@@ -56,7 +49,7 @@ class AuthTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard.index'));
+        $response->assertRedirect(route('dashboard.kaprog'));
     }
 
     public function test_login_tata_usaha()
@@ -75,11 +68,11 @@ class AuthTest extends TestCase
     {
         $response = $this->post('/post-login', [
             'username' => 'siswa',
-            'password' => 'siswa'
+            'password' => 'Siswa1'
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard.index'));
+        $response->assertRedirect(route('dashboard.siswa'));
     }
 
     public function test_logout()

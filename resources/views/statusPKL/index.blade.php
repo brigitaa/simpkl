@@ -70,12 +70,12 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="nama_status_pkl">Status PKL<sup class="text-danger">*</sup></label>
-                                <input type="text" class="form-control" id="nama_status_pkl" name="nama_status_pkl" placeholder="Status PKL" value="{{old('nama_status_pkl')}}">
-                                <div class="text-danger">
+                                <input type="text" class="form-control" id="nama_status_pkl" name="nama_status_pkl" placeholder="Status PKL" required value="{{old('nama_status_pkl')}}">
+                                {{-- <div class="text-danger">
                                     @error('nama_status_pkl')
                                         {{ $message }}
                                     @enderror
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="col text-right">
                                 <button type="submit" class="btn btn-success">Simpan</button>

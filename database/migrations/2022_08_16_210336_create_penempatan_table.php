@@ -17,7 +17,7 @@ class CreatePenempatanTable extends Migration
             $table->id();
             $table->integer('konfirmasi_dudi_id');
             $table->integer('guru_monitoring_id')->nullable();
-            $table->enum('status_pkl', ['Belum terlaksana', 'Sedang berlangsung', 'Sudah terlaksana']);
+            $table->integer('status_pkl_id');
             $table->timestamps();
         });
     }

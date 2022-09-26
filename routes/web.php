@@ -19,6 +19,8 @@ use App\Http\Controllers\GuruMonitoringController;
 use App\Http\Controllers\StatusPKLController;
 use App\Http\Controllers\PenempatanController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\LupaPasswordController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,17 +40,27 @@ Route::get('/', function () {
     return view('login');
 });
 
+Route::get('/contoh', function () {
+    return view('contoh');
+});
+
 
 
 Route::post('/post-register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/post-login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/forget-password', [LupaPasswordController::class, 'lihatLupaPasswordForm'])->name('auth.lupapassword');
+Route::post('/post-forget-password', [LupaPasswordController::class, 'storeLupaPasswordForm'])->name('post.lupapassword');
+Route::get('/reset-password/{token}', [LupaPasswordController::class, 'lihatResetPasswordForm'])->name('auth.resetpassword');
+Route::post('/reset-password', [LupaPasswordController::class, 'storeResetPasswordForm'])->name('post.resetpassword');
+
 Route::group(['middleware' => ['auth']], function(){
-    Route::resource('dashboard', DashboardController::class);
     Route::resource('profil', ProfilController::class);
-    Route::resource('statusPKL', StatusPKLController::class);
-    Route::resource('penempatanPKL', PenempatanController::class);
+    Route::get('/pengajuanPKL-filepernyataanortu/{id}', [PengajuanController::class, 'file_pernyataanortu'])->name('pengajuanPKL.file_pernyataanortu');
+    Route::get('/pengajuanPKL-filepernyataansiswa/{id}', [PengajuanController::class, 'file_pernyataansiswa'])->name('pengajuanPKL.file_pernyataansiswa');
+    Route::get('/konfirmasidudi-filebalasandudi/{id}', [KonfirmasiDUDIController::class, 'file_balasandudi'])->name('konfirmasidudi.file_balasandudi');
+    
 });
 
 // Route::group(["prefix" => "dashboard", "middleware" => ['auth']], function () {
@@ -74,12 +86,17 @@ Route::group(['middleware' => ['auth','checkrole:Admin']], function(){
     Route::resource('manajemenuser', UserController::class);
     Route::resource('kepalasekolah', KepalasekolahController::class);
     Route::resource('guru', GuruController::class);
-    Route::resource('gurumonitoring', GuruMonitoringController::class);
 });
 
 Route::group(['middleware' => ['auth','checkrole:Admin,Ketua Pokja PKL']], function(){
     Route::resource('periode', PeriodeController::class);
     Route::resource('dudi', DudiController::class);
+    Route::resource('statusPKL', StatusPKLController::class);
+}); 
+
+Route::group(['middleware' => ['auth','checkrole:Admin,Ketua Pokja PKL,Tata Usaha']], function(){
+    Route::resource('dashboard', DashboardController::class);
+    Route::resource('gurumonitoring', GuruMonitoringController::class);
 }); 
 
 Route::group(['middleware' => ['auth','checkrole:Ketua Pokja PKL,Kaprog,Tata Usaha']], function(){
@@ -94,26 +111,23 @@ Route::group(['middleware' => ['auth','checkrole:Admin,Ketua Pokja PKL,Kaprog,Ta
     Route::get('/konfirmasidudi-index', [KonfirmasiDUDIController::class, 'lihat'])->name('konfirmasidudi.lihat');
     Route::get('/konfirmasidudi/{id}/edit', [KonfirmasiDUDIController::class, 'edit'])->name('konfirmasidudi.edit');
     Route::put('/konfirmasidudi/{id}/update', [KonfirmasiDUDIController::class, 'update'])->name('konfirmasidudi.update');
+    Route::resource('penempatanPKL', PenempatanController::class);
     
 }); 
 
 Route::group(['middleware' => ['auth','checkrole:Siswa']], function(){
-    // Route::get('/dudi-index', [DudiController::class, 'lihat'])->name('dudi.lihat');
-    // Route::get('/dudi-create', [DudiController::class, 'create'])->name('dudi.create_dudisiswa');
-    // Route::post('/dudi-store', [DudiController::class, 'store'])->name('dudi.store_dudisiswa');
+    Route::get('/dashboard-siswa', [DashboardController::class, 'siswa'])->name('dashboard.siswa');
     Route::resource('pengajuanPKL', PengajuanController::class);
     Route::get('get/periode/{id}', [PengajuanController::class, 'getPeriode'])->name('getPeriode');
     Route::get('get/dudi/{id}', [PengajuanController::class, 'getDudi'])->name('getDudi');
     Route::get('/pengajuanPKL-pernyataanortu', [PengajuanController::class, 'pernyataanortu'])->name('pengajuanPKL.pernyataanortu');
     Route::get('/pengajuanPKL-pernyataansiswa', [PengajuanController::class, 'pernyataansiswa'])->name('pengajuanPKL.pernyataansiswa');
-    Route::get('/pengajuanPKL-filepernyataanortu/{id}', [PengajuanController::class, 'file_pernyataanortu'])->name('pengajuanPKL.file_pernyataanortu');
-    Route::get('/pengajuanPKL-filepernyataansiswa/{id}', [PengajuanController::class, 'file_pernyataansiswa'])->name('pengajuanPKL.file_pernyataansiswa');
     // Route::resource('konfirmasidudi', KonfirmasiDUDIController::class);
     Route::get('/konfirmasidudi', [KonfirmasiDUDIController::class, 'index'])->name('konfirmasidudi.index');
     Route::get('/konfirmasidudi/create', [KonfirmasiDUDIController::class, 'create'])->name('konfirmasidudi.create');
     Route::post('/konfirmasidudi/store', [KonfirmasiDUDIController::class, 'store'])->name('konfirmasidudi.store');
     Route::get('get/pengajuan/{id}', [KonfirmasiDUDIController::class, 'getPengajuan'])->name('getPengajuan');
-    Route::get('/konfirmasidudi-filebalasandudi/{id}', [KonfirmasiDUDIController::class, 'file_balasandudi'])->name('konfirmasidudi.file_balasandudi');
+    Route::get('/penempatanPKL-index', [PenempatanController::class, 'lihat'])->name('penempatanPKL.lihat');
 }); 
 
 Route::group(['middleware' => ['auth','checkrole:Ketua Pokja PKL']], function(){
@@ -123,6 +137,7 @@ Route::group(['middleware' => ['auth','checkrole:Ketua Pokja PKL']], function(){
 }); 
 
 Route::group(['middleware' => ['auth','checkrole:Kaprog']], function(){
+    Route::get('/dashboard-kaprog', [DashboardController::class, 'kaprog'])->name('dashboard.kaprog');
     Route::post('/pengajuanPKL-approvekaprog/{id}', [PengajuanController::class, 'terima_pengajuan_kaprog'])->name('pengajuanPKL.terima_pengajuan_kaprog');
     Route::post('/pengajuanPKL-rejectkaprog/{id}', [PengajuanController::class, 'tolak_pengajuan_kaprog'])->name('pengajuanPKL.tolak_pengajuan_kaprog');
     Route::post('/pengajuanPKL-cancelkaprog/{id}', [PengajuanController::class, 'batal_pengajuan_kaprog'])->name('pengajuanPKL.batal_pengajuan_kaprog');

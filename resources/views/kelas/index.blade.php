@@ -22,7 +22,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="kelasTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -58,5 +58,67 @@
         </div>
     </div>
 </div>
-
+@push('scripts')
+<script>
+    var table = $('#kelasTable').DataTable({
+        "scrollX": true,
+        dom: '<lfB<t>ip>',
+        "responsive": true,
+        orderable: [
+            [6, "asc"]
+        ],
+        lengthMenu: [
+            [ 10, 25, 50, 100, 1000, -1 ],
+            [ '10', '25', '50', '100', '1000', 'All' ]
+        ],
+        columnDefs: [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": 6,
+            },
+        ],
+        buttons: [
+            {
+                extend: 'excel',
+                text: 'Ekspor',
+                title: "Data Kelas SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3]
+                }
+            },
+            {
+                extend: 'pdf',
+                text: 'Pdf',
+                title: "Data Kelas SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all',
+                        search: 'none'
+                    },
+                    columns: [ 0, 1, 2, 3]
+                }
+            },
+            {
+                extend: 'print',
+                text: 'Print',
+                title: "Data Kelas SMKN 2 Balikpapan",
+                className: "button-datatables",
+                exportOptions: {
+                    modifier: {
+                        page: 'all'
+                    },
+                    columns: [ 0, 1, 2, 3]
+                }
+            },
+        ]
+    });
+</script>
+@endpush
 </x-app-layout>

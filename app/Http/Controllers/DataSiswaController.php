@@ -213,13 +213,6 @@ class DataSiswaController extends Controller
             'role_id'=>'5'
         ]);
 
-        // if($request->has('no_telp')){
-        //     $no_telp = $request->no_telp;
-        // }
-        // else {
-        //     $no_telp = '';
-        // }
-
         $datasiswa = Siswa::create([
             'nis'=>$request->nis,
             'nisn'=>$request->nisn,
@@ -347,7 +340,7 @@ class DataSiswaController extends Controller
      */
     public function destroy($id)
     {
-        $siswa=Siswa::where('id', $id)->first();
+        $siswa = Siswa::where('id', $id)->first();
         $user = User::where('id', $siswa->users_id)->first();
         $cekdata = Pengajuan::where('siswa_id',$id)->first();
 

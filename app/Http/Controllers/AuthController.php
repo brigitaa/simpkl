@@ -30,17 +30,11 @@ class AuthController extends Controller
             $role = Role::where('id',$user->role_id)->first();
             session(['role' => $role->nama_role]);
             // dd($role->nama_role);
-            if ($role->nama_role == 'Admin') {
-                return redirect()->intended(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
+            if ($role->nama_role == 'Kaprog') {
+                return redirect(route('dashboard.kaprog')); // edit kalau mau merubah halaman awal yang ingin dituju
             }
-            elseif ($role->nama_role == 'Ketua Pokja PKL') {
-                return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
-            }
-            elseif ($role->nama_role == 'Kaprog') {
-                return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
-            }
-            elseif ($role->nama_role == 'Tata Usaha') {
-                return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
+            elseif ($role->nama_role == 'Siswa') {
+                return redirect(route('dashboard.siswa')); // edit kalau mau merubah halaman awal yang ingin dituju
             }
             else {
                 return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju

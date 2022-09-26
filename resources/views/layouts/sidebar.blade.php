@@ -13,11 +13,27 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
+    @if ((session('role') == 'Admin') || (session('role') == 'Ketua Pokja PKL') || (session('role') == 'Tata Usaha'))
     <li class="nav-item">
         <a class="nav-link" href="{{route('dashboard.index')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
+    @endif
+    @if (session('role') == 'Kaprog')
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('dashboard.kaprog')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+    @endif
+    @if (session('role') == 'Siswa')
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('dashboard.siswa')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -41,7 +57,6 @@
                 <a class="collapse-item" href="{{url('datasiswaPKL')}}">Data Siswa PKL</a>
                 <a class="collapse-item" href="{{url('kaprog')}}">Manajemen Kaprog</a>
                 <a class="collapse-item" href="{{url('manajemenuser')}}">Manajemen User</a>
-                <a class="collapse-item" href="{{url('gurumonitoring')}}">Guru Monitoring</a>
             </div>
         </div>
     </li>
@@ -59,9 +74,13 @@
                 <a class="collapse-item" href="{{url('tahunajaran')}}">Tahun Ajaran</a>
                 <a class="collapse-item" href="{{url('kompetensikeahlian')}}">Kompetensi Keahlian</a>
                 <a class="collapse-item" href="{{url('kelas')}}">Kelas</a>
-                <a class="collapse-item" href="{{url('statusPKL')}}">Data Status PKL</a>
             </div>
         </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('statusPKL')}}">
+            <i class="fas fa-fw fa-hourglass-half"></i>
+            <span>Data Status PKL</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url('periode')}}">
@@ -75,13 +94,18 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('pengajuanPKL.lihat')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-book"></i>
             <span>Daftar Pengajuan PKL</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('konfirmasidudi.lihat')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-user-check"></i>
             <span>Daftar Konfirmasi DU/DI</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('gurumonitoring')}}">
+            <i class="fas fa-fw fa-user-clock"></i>
+            <span>Data Guru Monitoring</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url('penempatanPKL')}}">
@@ -97,6 +121,11 @@
             <span>Daftar Siswa PKL</span></a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{url('statusPKL')}}">
+            <i class="fas fa-fw fa-hourglass-half"></i>
+            <span>Data Status PKL</span></a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{url('periode')}}">
             <i class="fas fa-fw fa-calendar"></i>
             <span>Manajemen Periode PKL</span></a>
@@ -108,13 +137,23 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('pengajuanPKL.lihat')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-book"></i>
             <span>Daftar Pengajuan PKL</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('konfirmasidudi.lihat')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-user-check"></i>
             <span>Daftar Konfirmasi DU/DI</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('gurumonitoring')}}">
+            <i class="fas fa-fw fa-user-clock"></i>
+            <span>Data Guru Monitoring</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('penempatanPKL')}}">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Daftar Penempatan PKL</span></a>
     </li>
     @endif
 
@@ -126,13 +165,18 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('pengajuanPKL.lihat')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-book"></i>
             <span>Daftar Pengajuan PKL</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('konfirmasidudi.lihat')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-user-check"></i>
             <span>Daftar Konfirmasi DU/DI</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('penempatanPKL')}}">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Daftar Penempatan PKL</span></a>
     </li>
     @endif
 
@@ -144,49 +188,42 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('pengajuanPKL.lihat')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-book"></i>
             <span>Daftar Pengajuan PKL</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('konfirmasidudi.lihat')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-user-check"></i>
             <span>Daftar Konfirmasi DU/DI</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('gurumonitoring')}}">
+            <i class="fas fa-fw fa-user-clock"></i>
+            <span>Data Guru Monitoring</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('penempatanPKL')}}">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Daftar Penempatan PKL</span></a>
     </li>
     @endif
 
     @if (session('role') == 'Siswa')
     <li class="nav-item">
         <a class="nav-link" href="{{url('pengajuanPKL')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-book"></i>
             <span>Pengajuan PKL</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('konfirmasidudi.index')}}">
-            <i class="fas fa-fw fa-list"></i>
+            <i class="fas fa-fw fa-user-check"></i>
             <span>Konfirmasi Balasan DU/DI</span></a>
     </li>
-
-    {{-- <li class="nav-item">
-        <a class="nav-link" href="{{route('dudi.lihat')}}">
-            <i class="fas fa-fw fa-building"></i>
-            <span>Daftar DU/DI</span></a>
-    </li> --}}
-    
-    {{-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Pengajuan PKL</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-light py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Pengajuan PKL</h6>
-                <a class="collapse-item" href="{{route('pengajuanPKL.create')}}">Form Pengajuan PKL</a>
-                <a class="collapse-item" href="{{route('pengajuanPKL.index')}}">Riwayat Pengajuan PKL</a>
-                <a class="collapse-item" href="{{url('konfirmasidudi')}}">Konfirmasi Balasan DU/DI</a>
-            </div>
-        </div>
-    </li> --}}
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('penempatanPKL.lihat')}}">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Penempatan PKL</span></a>
+    </li>
     @endif
 
     <!-- Divider -->

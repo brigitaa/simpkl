@@ -106,8 +106,8 @@
             <div class="col-sm-8">
                 <select id="status_balasan_dudi" class="form-control" name="status_balasan_dudi">
                     <option value="" selected>--Pilih--</option>
-                    <option value="1">Disetujui</option>
-                    <option value="2">Ditolak</option>
+                    <option value="Disetujui">Disetujui</option>
+                    <option value="Ditolak">Ditolak</option>
                 </select>
                 <div class="text-danger">
                     @error('status_balasan_dudi')

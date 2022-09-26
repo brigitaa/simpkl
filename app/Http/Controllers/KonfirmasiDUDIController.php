@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Kaprog;
 use App\Models\Guru_monitoring;
+use App\Models\Status_pkl;
 use App\Models\Penempatan;
 use Illuminate\Support\Facades\File; 
 
@@ -226,8 +227,7 @@ class KonfirmasiDUDIController extends Controller
         ]);
 
 
-
-        if ($request->status_balasan_dudi == '1') {
+        if ($request->status_balasan_dudi == "Disetujui") {
             $gurumonitoring = Guru_monitoring::firstOrCreate(
                 ['dudi_id' => $pengajuan->dudi_id,
                 'periode_id' => $pengajuan->periode_id,
@@ -238,28 +238,13 @@ class KonfirmasiDUDIController extends Controller
                                                  ->where('periode_id', $pengajuan->periode_id)
                                                  ->first();
 
+            $statuspkl = Status_pkl::where('nama_status_pkl', '=', 'Belum terlaksana')->first();
+
             $penempatan = Penempatan::create([
                 'konfirmasi_dudi_id'=>$datakonfirmasidudi->id,
                 'guru_monitoring_id'=>$datagurumonitoring->id,
-                'status_pkl'=>'Belum terlaksana',
+                'status_pkl_id'=>$statuspkl->id,
             ]);
-            // $konfirmasidudi = Konfirmasi_dudi::leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
-            //                                  ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
-            //                                  ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
-            //                                  ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
-
-            // $sekarang = Carbon::now();
-            // $tanggalmulaiPKL = $konfirmasidudi->tanggal_mulai;
-            // $tanggalselesaiPKL = $konfirmasidudi->tanggal_selesai;
-            // if ($sekarang <= between($tanggalmulaiPKL, $tanggalselesaiPKL)){
-            //     $status_pkl = $request->status_pkl == 'Belum terlaksana';
-            // }
-            // elseif ($sekarang->between($tanggalmulaiPKL, $tanggalselesaiPKL)) {
-            //     $status_pkl = $request->status_pkl == 'Sedang';
-            // }
-            // else {
-
-            // }
             
         };
 
@@ -331,6 +316,32 @@ class KonfirmasiDUDIController extends Controller
             'pengajuan_id'=>$pengajuan->id,
             'status'=>$request->status_balasan_dudi
         ]);
+
+        if ($request->status_balasan_dudi == '1') {
+            $gurumonitoring = Guru_monitoring::firstOrCreate(
+                ['dudi_id' => $pengajuan->dudi_id,
+                'periode_id' => $pengajuan->periode_id,
+                'guru_id' => $request->guru_id]
+            );
+
+            $datagurumonitoring = Guru_monitoring::where('dudi_id', $pengajuan->dudi_id)
+                                                 ->where('periode_id', $pengajuan->periode_id)
+                                                 ->first();
+            $statuspkl = Status_pkl::where('nama_status_pkl', '=', 'Belum terlaksana')->first();
+
+            $penempatan = Penempatan::firstOrcreate([
+                'konfirmasi_dudi_id'=>$konfirmasidudi->id,
+                'guru_monitoring_id'=>$datagurumonitoring->id,
+                'status_pkl_id'=>$statuspkl->id,
+            ]);
+            
+        }
+
+        else {
+            $penempatan = Penempatan::where('konfirmasi_dudi_id', $konfirmasidudi->id)->first();
+            $penempatan->delete();            
+        }
+
 
         return redirect()->route('konfirmasidudi.lihat')->with('success','Data konfirmasi balasan dudi berhasil diubah');
     }

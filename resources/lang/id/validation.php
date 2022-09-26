@@ -278,8 +278,26 @@ return [
             'max' => 'Surat balasan dudi harus tidak lebih dari 5 MB.',
         ],
 
-        'status' => [
-            'required' => 'Status konfirmasi dudi harus diisi.',
+        'status_balasan_dudi' => [
+            'required' => 'Status konfirmasi balasan dudi harus diisi.',
+        ],
+
+        'nama_guru' => [
+            'required' => 'Nama guru harus diisi.',
+        ],
+
+        'no_telp_guru' => [
+            'required' => 'No. telepon harus diisi.',
+        ],
+
+        'nama_status_pkl' => [
+            'required' => 'Status PKL harus diisi.',
+        ],
+
+        'password' => [
+            'min' => 'Password harus terdiri atas minimal 6 karakter dan mengandung angka, huruf kecil dan huruf besar.',
+            'regex' => 'Password harus terdiri atas minimal 6 karakter dan mengandung angka, huruf kecil dan huruf besar.',
+            'confirmed' => 'Konfirmasi password tidak cocok.'
         ],
     ],
 

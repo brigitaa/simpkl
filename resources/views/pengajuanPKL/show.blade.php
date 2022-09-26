@@ -43,6 +43,10 @@
                                         <td>: {{$siswa->jeniskelamin}}</td>
                                     </tr>
                                     <tr>
+                                        <td style="font-weight:bold">No. Telepon</td>
+                                        <td>: {{$siswa->no_telp}}</td>
+                                    </tr>
+                                    <tr>
                                         <td style="font-weight:bold">Periode PKL</td>
                                         <td>: {{$dataperiode->tanggal_mulai}} s/d {{$dataperiode->tanggal_selesai}}</td>
                                     </tr>

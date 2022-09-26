@@ -111,7 +111,7 @@ class ThnAjaranController extends Controller
             return redirect()->route('tahunajaran.index')->with('error','Data tahun ajaran sedang digunakan');
         }
         else {
-            $dudi->delete();
+            $tahunajaran->delete();
             return redirect()->route('tahunajaran.index')->with('success','Tahun Ajaran berhasil dihapus');
         }  
     }

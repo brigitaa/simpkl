@@ -60,8 +60,24 @@
                         <td>
                             <a href="{{route('pengajuanPKL.file_pernyataansiswa', $value->id)}}">{{$value->pernyataan_siswa}}</a>
                         </td>
-                        <td>{{$value->status_verif_pokja}}</td>
-                        <td>{{$value->status_verif_kaprog}}</td>
+                        <td>
+                            @if ($value->status_verif_pokja == 'Diproses')
+                                <span class="badge badge-warning">{{$value->status_verif_pokja}}</span>
+                            @elseif ($value->status_verif_pokja == 'Disetujui')
+                                <span class="badge badge-success">{{$value->status_verif_pokja}}</span>
+                            @else
+                                <span class="badge badge-danger">{{$value->status_verif_pokja}}</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if ($value->status_verif_kaprog == 'Diproses')
+                                <span class="badge badge-warning">{{$value->status_verif_kaprog}}</span>
+                            @elseif ($value->status_verif_kaprog == 'Disetujui')
+                                <span class="badge badge-success">{{$value->status_verif_kaprog}}</span>
+                            @else
+                                <span class="badge badge-danger">{{$value->status_verif_kaprog}}</span>
+                            @endif
+                        </td>
                         <td>
                             @if ($value->status_verif_pokja != 'Diproses' || $value->status_verif_kaprog != 'Diproses')
                                 <button type="submit" class="btn btn-warning btn-sm" disabled>Ubah</button>
