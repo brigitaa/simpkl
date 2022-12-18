@@ -18,6 +18,7 @@ use App\Models\Kaprog;
 use App\Models\Guru_monitoring;
 use App\Models\Status_pkl;
 use App\Models\Penempatan;
+use App\Models\Penilaian;
 use Illuminate\Support\Facades\File; 
 
 class KonfirmasiDUDIController extends Controller
@@ -210,7 +211,7 @@ class KonfirmasiDUDIController extends Controller
     {
         $request->validate([
             'pengajuan_id' => 'required',
-            'balasan_dudi' => 'required|mimes:pdf|max:5000',
+            'balasan_dudi' => 'required|mimes:pdf|max:1000',
             'status_balasan_dudi' => 'required',
         ]);
 
@@ -230,8 +231,7 @@ class KonfirmasiDUDIController extends Controller
         if ($request->status_balasan_dudi == "Disetujui") {
             $gurumonitoring = Guru_monitoring::firstOrCreate(
                 ['dudi_id' => $pengajuan->dudi_id,
-                'periode_id' => $pengajuan->periode_id,
-                'guru_id' => $request->guru_id]
+                'periode_id' => $pengajuan->periode_id]
             );
 
             $datagurumonitoring = Guru_monitoring::where('dudi_id', $pengajuan->dudi_id)
@@ -244,6 +244,11 @@ class KonfirmasiDUDIController extends Controller
                 'konfirmasi_dudi_id'=>$datakonfirmasidudi->id,
                 'guru_monitoring_id'=>$datagurumonitoring->id,
                 'status_pkl_id'=>$statuspkl->id,
+            ]);
+
+            $penilaian = Penilaian::create([
+                'penempatan_id'=>$penempatan->id,
+                'status_verif_nilai'=>'Belum diverifikasi'
             ]);
             
         };
@@ -295,7 +300,7 @@ class KonfirmasiDUDIController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'balasan_dudi' => 'mimes:pdf|max:5000',
+            'balasan_dudi' => 'mimes:pdf|max:1000',
         ]);
 
         $konfirmasidudi = Konfirmasi_dudi::where('id', $id)->first();
@@ -317,12 +322,12 @@ class KonfirmasiDUDIController extends Controller
             'status'=>$request->status_balasan_dudi
         ]);
 
-        if ($request->status_balasan_dudi == '1') {
+        if ($request->status_balasan_dudi == 'Disetujui') {
             $gurumonitoring = Guru_monitoring::firstOrCreate(
                 ['dudi_id' => $pengajuan->dudi_id,
-                'periode_id' => $pengajuan->periode_id,
-                'guru_id' => $request->guru_id]
-            );
+                'periode_id' => $pengajuan->periode_id
+                // 'guru_id' => $request->guru_id
+            ]);
 
             $datagurumonitoring = Guru_monitoring::where('dudi_id', $pengajuan->dudi_id)
                                                  ->where('periode_id', $pengajuan->periode_id)
@@ -334,11 +339,18 @@ class KonfirmasiDUDIController extends Controller
                 'guru_monitoring_id'=>$datagurumonitoring->id,
                 'status_pkl_id'=>$statuspkl->id,
             ]);
+
+            $penilaian = Penilaian::firstOrcreate([
+                'penempatan_id'=>$penempatan->id,
+                'status_verif_nilai'=>'Belum diverifikasi'
+            ]);
             
         }
 
         else {
             $penempatan = Penempatan::where('konfirmasi_dudi_id', $konfirmasidudi->id)->first();
+            $penilaian = Penilaian::where('penempatan_id', $penempatan->id)->first();
+            $penilaian->delete();   
             $penempatan->delete();            
         }
 
@@ -354,16 +366,16 @@ class KonfirmasiDUDIController extends Controller
      */
     public function destroy($id)
     {
-        $konfirmasidudi=Konfirmasi_dudi::where('id', $id)->first();
-        $balasan_dudi_path = public_path("storage/balasan_dudi/{$konfirmasidudi->balasan_dudi}");
+        // $konfirmasidudi=Konfirmasi_dudi::where('id', $id)->first();
+        // $balasan_dudi_path = public_path("storage/balasan_dudi/{$konfirmasidudi->balasan_dudi}");
 
-        if (File::exists($balasan_dudi_path)) {
-            unlink($balasan_dudi_path);
-        }
+        // if (File::exists($balasan_dudi_path)) {
+        //     unlink($balasan_dudi_path);
+        // }
 
-        $konfirmasidudi->delete();
+        // $konfirmasidudi->delete();
         
-        return redirect()->route('konfirmasidudi.index')->with('success','Data konfirmasi balasan dudi berhasil dihapus');
+        // return redirect()->route('konfirmasidudi.index')->with('success','Data konfirmasi balasan dudi berhasil dihapus');
     }
 
     public function getPengajuan($idpengajuan = 0)

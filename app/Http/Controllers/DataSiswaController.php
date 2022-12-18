@@ -29,10 +29,6 @@ class DataSiswaController extends Controller
     {
         $kelas = Kelas::all();
         $tahunajaran = Thn_ajaran::all();
-        $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                        ->select('siswa.*','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran')
-                        ->get();
 
         if (!$request->all() || ($request->nama_kelas == '' && $request->nama_thn_ajaran == '')){
             $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')

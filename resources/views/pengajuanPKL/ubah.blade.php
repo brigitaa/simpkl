@@ -84,13 +84,20 @@
                         <option value="{{$value->id}}">{{$value->nama_dudi}}</option>
                     @endif
                     @endforeach
+                    <option value="Lainnya">Lainnya</option>
                 </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="otherdudi" name="nama_dudi" placeholder="Nama DU/DI lainnya" style='display:none;' />
             </div>
         </div>
         <div class="form-group row">
             <label for="alamat_dudi" class="col-sm-4 col-form-label">Alamat DU/DI<sup class="text-danger">*</sup></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="alamat_dudi" value="{{$datadudi->alamat_dudi}}" readonly />
+                <input type="text" class="form-control" id="alamat_dudi" name="alamat_dudi"  value="{{$datadudi->alamat_dudi}}" placeholder="Masukkan alamat DU/DI" disabled="disabled" />
             </div>
         </div>
         <div class="form-group row">
@@ -169,6 +176,19 @@
                     }
                 }
             });
+        });
+
+        $("#nama_dudi").change(function () {
+            if ($(this).val() == "Lainnya") {
+                $("#otherdudi").show();
+                $("#alamat_dudi").removeAttr("disabled");
+                $('#alamat_dudi').val('');
+            } else {
+                $("#otherdudi").hide();
+                // $("#otherdudi").attr("disabled", "disabled");
+                $("#alamat_dudi").attr("disabled", "disabled");
+                
+            }
         });
     </script>    
 

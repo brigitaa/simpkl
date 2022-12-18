@@ -85,7 +85,7 @@ class PengajuanController extends Controller
                             ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                             ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                             ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'pengajuan.tahunajaran')
                             ->select('pengajuan.*','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi')
                             ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
                             ->get();
@@ -96,7 +96,7 @@ class PengajuanController extends Controller
                             ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                             ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                             ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'pengajuan.tahunajaran')
                             ->select('pengajuan.*','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi')
                             ->get();    
             }
@@ -108,7 +108,7 @@ class PengajuanController extends Controller
                             ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                             ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                             ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'pengajuan.tahunajaran')
                             ->select('pengajuan.*','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi')
                             ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
                             ->where('nama_kelas', '=', $request->nama_kelas)
@@ -120,7 +120,7 @@ class PengajuanController extends Controller
                         ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                         ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                         ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'pengajuan.tahunajaran')
                         ->select('pengajuan.*','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi')
                         ->where('nama_kelas', '=', $request->nama_kelas)
                         ->get();  
@@ -134,7 +134,7 @@ class PengajuanController extends Controller
                             ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                             ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                             ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'pengajuan.tahunajaran')
                             ->select('pengajuan.*','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi')
                             ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
                             ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
@@ -146,7 +146,7 @@ class PengajuanController extends Controller
                         ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                         ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                         ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'pengajuan.tahunajaran')
                         ->select('pengajuan.*','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi')
                         ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
                         ->get(); 
@@ -160,7 +160,7 @@ class PengajuanController extends Controller
                             ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                             ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                             ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'pengajuan.tahunajaran')
                             ->select('pengajuan.*','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi')
                             ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
                             ->where('nama_kelas', '=', $request->nama_kelas)
@@ -173,7 +173,7 @@ class PengajuanController extends Controller
                         ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                         ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                         ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'pengajuan.tahunajaran')
                         ->select('pengajuan.*','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi')
                         ->where('nama_kelas', '=', $request->nama_kelas)
                         ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
@@ -210,8 +210,8 @@ class PengajuanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pernyataan_ortu' => 'required|mimes:pdf|max:10000',
-            'pernyataan_siswa' => 'required|mimes:pdf|max:10000',
+            'pernyataan_ortu' => 'required|mimes:pdf|max:1000',
+            'pernyataan_siswa' => 'required|mimes:pdf|max:1000',
         ]);
 
         $id = IdGenerator::generate(['table' => 'pengajuan', 'length' => 15, 'prefix' =>'P-']);
@@ -245,6 +245,7 @@ class PengajuanController extends Controller
             'dudi_id'=>$dudi->id,
             'pernyataan_ortu'=>$fileName_pernyataanOrtu,
             'pernyataan_siswa'=>$fileName_pernyataanSiswa,
+            'tahunajaran'=>$datasiswa->kode_thn_ajaran
         ]);
 
         return redirect()->route('pengajuanPKL.index')->with('success','Data pengajuan berhasil disimpan');
@@ -264,7 +265,7 @@ class PengajuanController extends Controller
     public function showdetail($id)
     {
         $pengajuan = Pengajuan::where('id', $id)->first();
-        $siswa = Siswa::all()->first();
+        $siswa = Siswa::where('id', $pengajuan->siswa_id)->first();
         $periode = Periode::all();
         $dudi = Dudi::all();
         $dataperiode = Periode::where('id', $pengajuan->periode_id)->first();
@@ -305,8 +306,8 @@ class PengajuanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'pernyataan_ortu' => 'mimes:pdf|max:5000',
-            'pernyataan_siswa' => 'mimes:pdf|max:5000',
+            'pernyataan_ortu' => 'mimes:pdf|max:1000',
+            'pernyataan_siswa' => 'mimes:pdf|max:1000',
         ]);
 
         $pengajuan = Pengajuan::where('id', $id)->first();
@@ -315,7 +316,15 @@ class PengajuanController extends Controller
         $dudi = Dudi::all();
         $datasiswa = Siswa::where('users_id', Auth::user()->id)->first();
         $dataperiode = Periode::where('id', $request->periode_id)->first();
-        $datadudi = Dudi::where('id', $request->dudi_id)->first();
+        if ($request->dudi_id != 'Lainnya') {
+            $datadudi = Dudi::where('id', $request->dudi_id)->first();
+        }
+        else {
+            $datadudi = Dudi::create([
+                'nama_dudi'=>$request->nama_dudi,
+                'alamat_dudi'=>$request->alamat_dudi
+            ]);
+        }
         
         if($request->hasfile('pernyataan_ortu')) {   
             $file_pernyataan_ortu = $request->file('pernyataan_ortu');
@@ -373,8 +382,6 @@ class PengajuanController extends Controller
 
         // dd($pengajuan);
         $pengajuan->delete();
-        
-        
         return redirect()->route('pengajuanPKL.index')->with('success','Data Pengajuan PKL berhasil dihapus');
     }
 
@@ -474,108 +481,144 @@ class PengajuanController extends Controller
         return redirect()->route('pengajuanPKL.lihat')->with('success','Status pengajuan PKL telah dibatalkan');  
     }
 
-    public function ekspor(Request $request)
+    public function updateketerangan(Request $request, $id)
     {
-        // $pengajuan = Pengajuan::leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
-        //                         ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
-        //                         ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
-        //                         ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas') 
-        //                         ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-        //                         ->select('pengajuan.id','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi');
-        //                         // ->when(request()->input('nama_kelas'), function ($query) {
-        //                         //     $query->where('kelas.nama_kelas', request()->input('nama_kelas'));
-        //                         //   })
-        //                         if ($request->has('nama_kelas')) {
-        //                             $pengajuan->where('nama_kelas', $request->nama_kelas);
-        //                         }
-        //                         if ($request->has('nama_thn_ajaran')) {
-        //                             $pengajuan->where('nama_thn_ajaran', $request->nama_thn_ajaran);
-        //                         }
+        $pengajuan = Pengajuan::find($id);
+        $pengajuan->update([
+            'keterangan'=>$request->keterangan
+        ]);
+        return redirect()->route('pengajuanPKL.lihat')->with('success','Keterangan berhasil diubah');  
+    }
+
+    public function surat_selesai($id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
+            $pengajuan->update([
+                'status_surat'=>'2'
+            ]);
+        return redirect()->route('pengajuanPKL.lihat')->with('success','Status surat selesai');  
+    }
+
+    public function surat_tidak_diproses($id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
+            $pengajuan->update([
+                'status_surat'=>'3'
+            ]);
+        return redirect()->route('pengajuanPKL.lihat')->with('success','Status surat tidak dapat diproses');  
+    }
+
+    public function surat_diproses($id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
+            $pengajuan->update([
+                'status_surat'=>'1'
+            ]);
+        return redirect()->route('pengajuanPKL.lihat')->with('success','Status surat telah dibatalkan');  
+    }
+
+    // public function ekspor(Request $request)
+    // {
+    //     // $pengajuan = Pengajuan::leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
+    //     //                         ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
+    //     //                         ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
+    //     //                         ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas') 
+    //     //                         ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+    //     //                         ->select('pengajuan.id','siswa.nis','siswa.nisn','siswa.nama_siswa','kelas.nama_kelas','thn_ajaran.nama_thn_ajaran','periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi');
+    //     //                         // ->when(request()->input('nama_kelas'), function ($query) {
+    //     //                         //     $query->where('kelas.nama_kelas', request()->input('nama_kelas'));
+    //     //                         //   })
+    //     //                         if ($request->has('nama_kelas')) {
+    //     //                             $pengajuan->where('nama_kelas', $request->nama_kelas);
+    //     //                         }
+    //     //                         if ($request->has('nama_thn_ajaran')) {
+    //     //                             $pengajuan->where('nama_thn_ajaran', $request->nama_thn_ajaran);
+    //     //                         }
     
                             
-        // if ( request()->has('search') && !empty(request()->get('search')) ) {
-        //     $search = request()->query('search');
-        //     $pengajuan->where(function ($query) use($search) {
-        //         $query->where('nama_kelas', 'LIKE', "%{$search}%")
-        //             ->orWhere('nama_thn_ajaran', 'LIKE', "%{$search}%");
+    //     // if ( request()->has('search') && !empty(request()->get('search')) ) {
+    //     //     $search = request()->query('search');
+    //     //     $pengajuan->where(function ($query) use($search) {
+    //     //         $query->where('nama_kelas', 'LIKE', "%{$search}%")
+    //     //             ->orWhere('nama_thn_ajaran', 'LIKE', "%{$search}%");
                     
-        //     });
-        // }
-        $kelas = $request->get('nama_kelas');
-        $tahunajaran = $request->get('nama_thn_ajaran');
+    //     //     });
+    //     // }
+    //     $kelas = $request->get('nama_kelas');
+    //     $tahunajaran = $request->get('nama_thn_ajaran');
 
-        return Excel::download(new PengajuanExport($kelas, $tahunajaran), 'Daftar Pengajuan PKL.xlsx');
-    }
+    //     return Excel::download(new PengajuanExport($kelas, $tahunajaran), 'Daftar Pengajuan PKL.xlsx');
+    // }
 
-    public function create_file_pengajuan($id)
-    {
-        $pengajuan = Pengajuan::leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
-                        ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
-                        ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
-                        ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                        ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                        ->find($id);
+    // public function create_file_pengajuan($id)
+    // {
+    //     $pengajuan = Pengajuan::leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
+    //                     ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
+    //                     ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
+    //                     ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+    //                     ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+    //                     ->find($id);
 
-        /* Set the PDF Engine Renderer Path */
-        $domPdfPath = base_path('vendor/dompdf/dompdf');
-        \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
-        \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
+    //     /* Set the PDF Engine Renderer Path */
+    //     $domPdfPath = base_path('vendor/dompdf/dompdf');
+    //     \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
+    //     \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
          
-        $template = new \PhpOffice\PhpWord\TemplateProcessor(public_path('doc/template pengajuan PKL.docx'));
-        $fileName_pengajuanPKL = $pengajuan['nis'] . '_' . $pengajuan['nama_siswa'] . '_Permohonan Pengajuan PKL.docx';
-        $fileName_pengajuanPKLPDF = $pengajuan['nis'] . '_' . $pengajuan['nama_siswa'] . '_Permohonan Pengajuan PKL.pdf';
-        // $filepath = public_path('storage/pengajuanPKL' . $fileName_pengajuanPKL);
+    //     $template = new \PhpOffice\PhpWord\TemplateProcessor(public_path('doc/template pengajuan PKL.docx'));
+    //     $fileName_pengajuanPKL = $pengajuan['nis'] . '_' . $pengajuan['nama_siswa'] . '_Permohonan Pengajuan PKL.docx';
+    //     $fileName_pengajuanPKLPDF = $pengajuan['nis'] . '_' . $pengajuan['nama_siswa'] . '_Permohonan Pengajuan PKL.pdf';
+    //     // $filepath = public_path('storage/pengajuanPKL' . $fileName_pengajuanPKL);
         
-        Carbon::setLocale('id');
+    //     Carbon::setLocale('id');
 
-        $today = Carbon::now()->isoFormat('D MMMM Y');
+    //     $today = Carbon::now()->isoFormat('D MMMM Y');
         
-        $tanggalmulai = Carbon::parse($pengajuan->tanggal_mulai)->translatedFormat('d F Y');
-        $tanggalselesai = Carbon::parse($pengajuan->tanggal_selesai)->translatedFormat('d F Y');
+    //     $tanggalmulai = Carbon::parse($pengajuan->tanggal_mulai)->translatedFormat('d F Y');
+    //     $tanggalselesai = Carbon::parse($pengajuan->tanggal_selesai)->translatedFormat('d F Y');
 
-        $template->setValue('tanggal_sekarang', $today);
-        $template->setValue('nama_dudi', $pengajuan->nama_dudi);
-        $template->setValue('tanggal_mulai', $tanggalmulai);
-        $template->setValue('tanggal_selesai', $tanggalselesai);
-        $template->setValue('nama_siswa', $pengajuan->nama_siswa);
-        $template->setValue('nis', $pengajuan->nis);
-        $template->setValue('nisn', $pengajuan->nisn);
-        $template->setValue('nama_kelas', $pengajuan->nama_kelas);
+    //     $template->setValue('tanggal_sekarang', $today);
+    //     $template->setValue('nama_dudi', $pengajuan->nama_dudi);
+    //     $template->setValue('tanggal_mulai', $tanggalmulai);
+    //     $template->setValue('tanggal_selesai', $tanggalselesai);
+    //     $template->setValue('nama_siswa', $pengajuan->nama_siswa);
+    //     $template->setValue('nis', $pengajuan->nis);
+    //     $template->setValue('nisn', $pengajuan->nisn);
+    //     $template->setValue('nama_kelas', $pengajuan->nama_kelas);
 
-        $saveDocPath = public_path('storage/cetakpengajuanPKL/' . $fileName_pengajuanPKL);
-        $template->saveAs($saveDocPath);
+    //     $saveDocPath = public_path('storage/cetakpengajuanPKL/' . $fileName_pengajuanPKL);
+    //     $template->saveAs($saveDocPath);
 
         
 
-        //Load word file
-        $Content = \PhpOffice\PhpWord\IOFactory::load($saveDocPath);
-        // return $Content->stream();
+    //     //Load word file
+    //     $Content = \PhpOffice\PhpWord\IOFactory::load($saveDocPath);
+    //     // return $Content->stream();
  
-        // //Save it into PDF
-        // $savePdfPath = public_path('storage/cetakpengajuanPKL/' . $fileName_pengajuanPKLPDF);
+    //     // //Save it into PDF
+    //     // $savePdfPath = public_path('storage/cetakpengajuanPKL/' . $fileName_pengajuanPKLPDF);
 
-        // /*@ If already PDF exists then delete it */
-        // if ( file_exists($savePdfPath) ) {
-        //     unlink($savePdfPath);
-        // }
+    //     // /*@ If already PDF exists then delete it */
+    //     // if ( file_exists($savePdfPath) ) {
+    //     //     unlink($savePdfPath);
+    //     // }
 
-        // //Save it into PDF
-        // $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'PDF');
-        // $PDFWriter->save($savePdfPath);
+    //     // //Save it into PDF
+    //     // $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'PDF');
+    //     // $PDFWriter->save($savePdfPath);
 
-        // return response()->file($saveDocPath, [
-        //     'Content-Type' => 'application/pdf'
-        // ]);
+    //     // return response()->file($saveDocPath, [
+    //     //     'Content-Type' => 'application/pdf'
+    //     // ]);
 
-        // return Response::download($savePdfPath);
+    //     // return Response::download($savePdfPath);
         
-        // /*@ Remove temporarily created word file */
-        // if ( file_exists($saveDocPath) ) {
-        //     unlink($saveDocPath);
-        // }
-        return Response::download($saveDocPath); 
-        // return Response::download(public_path('storage/pengajuanPKL'), $fileName_pengajuanPKL); 
-    }
+    //     // /*@ Remove temporarily created word file */
+    //     // if ( file_exists($saveDocPath) ) {
+    //     //     unlink($saveDocPath);
+    //     // }
+    //     return Response::download($saveDocPath); 
+    //     // return Response::download(public_path('storage/pengajuanPKL'), $fileName_pengajuanPKL); 
+    // }
 
     public function create_surat_pengantar($id)
     {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB; 
 use Carbon\Carbon; 
 use App\Models\User; 
+use App\Models\Password_resets; 
 use Mail; 
 use Hash;
 use Illuminate\Support\Str;
@@ -25,7 +26,7 @@ class LupaPasswordController extends Controller
   
         $token = Str::random(50);
   
-        DB::table('password_resets')->insert([
+        $resetpassword = Password_resets::create([
             'email' => $request->email, 
             'token' => $token, 
             'created_at' => Carbon::now()
@@ -40,33 +41,30 @@ class LupaPasswordController extends Controller
     }
 
     public function lihatResetPasswordForm($token) 
-    { 
-        return view('auth.resetpassword', ['token' => $token]);
+    {
+        $email = Password_resets::where('token', $token)->first();
+                            
+        return view('auth.resetpassword', ['token' => $token], compact('email'));
     }
 
     public function storeResetPasswordForm(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
+            'email' => 'email|exists:users',
             'password' => 'min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/|confirmed',
             'password_confirmation' => 'required'
         ]);
   
-        $updatePassword = DB::table('password_resets')
-                              ->where([
-                                'email' => $request->email, 
-                                'token' => $request->token
-                              ])
-                              ->first();
+        $updatePassword = Password_resets::where('token', $request->token)->first();
   
         if(!$updatePassword){
             return back()->withInput()->with('error', 'Invalid token!');
         }
   
-        $user = User::where('email', $request->email)
+        $user = User::where('email', $updatePassword->email)
                       ->update(['password' => Hash::make($request->password)]);
  
-        DB::table('password_resets')->where(['email'=> $request->email])->delete();
+        $hapusemail = Password_resets::where('email', $updatePassword->email)->delete();
   
         return redirect('/')->with('message', 'Password Anda telah diubah!');
     }

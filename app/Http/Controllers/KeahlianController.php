@@ -116,26 +116,26 @@ class KeahlianController extends Controller
         }  
     }
 
-    public function get_data_keahlian (Request $request) {
-        $kompetensi_keahlian = Kompetensi_keahlian::all();
-        if($request->ajax()){
-            return datatables()->of($kompetensi_keahlian)
-                ->addIndexColumn()
-                ->editColumn('created_at', function ($request) {
-                    return $request->created_at->format('Y-m-d H:i:s'); // human readable format
-                  })
-                ->editColumn('updated_at', function ($request) {
-                    return $request->updated_at->format('Y-m-d H:i:s'); // human readable format
-                  })
-                ->addColumn('aksi', function($data){
-                    return  '<form action="' . route("kompetensikeahlian.destroy",$data->id) . '" method="POST">
-                            '.csrf_field().'
-                            '.method_field("DELETE").
-                            '<a href="' . route("kompetensikeahlian.edit", $data->id) . '" class="btn btn-sm btn-warning">Ubah</a>
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin ingin menghapus data ini?\')">Hapus</button></form>';
-                    })
-                ->rawColumns(['aksi'])
-                ->make(true);
-        }
-    }
+    // public function get_data_keahlian (Request $request) {
+    //     $kompetensi_keahlian = Kompetensi_keahlian::all();
+    //     if($request->ajax()){
+    //         return datatables()->of($kompetensi_keahlian)
+    //             ->addIndexColumn()
+    //             ->editColumn('created_at', function ($request) {
+    //                 return $request->created_at->format('Y-m-d H:i:s'); // human readable format
+    //               })
+    //             ->editColumn('updated_at', function ($request) {
+    //                 return $request->updated_at->format('Y-m-d H:i:s'); // human readable format
+    //               })
+    //             ->addColumn('aksi', function($data){
+    //                 return  '<form action="' . route("kompetensikeahlian.destroy",$data->id) . '" method="POST">
+    //                         '.csrf_field().'
+    //                         '.method_field("DELETE").
+    //                         '<a href="' . route("kompetensikeahlian.edit", $data->id) . '" class="btn btn-sm btn-warning">Ubah</a>
+    //                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin ingin menghapus data ini?\')">Hapus</button></form>';
+    //                 })
+    //             ->rawColumns(['aksi'])
+    //             ->make(true);
+    //     }
+    // }
 }

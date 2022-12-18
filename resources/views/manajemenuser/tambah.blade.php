@@ -20,7 +20,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="email">Email<sup class="text-danger">*</sup></label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="contoh@example.com" value="{{old('email')}}">
+                <input type="email" class="form-control" id="email" name="email" placeholder="contoh@example.com" value="{{old('email')}}">
                 <div class="text-danger">
                     @error('email')
                         {{ $message }}
@@ -57,7 +57,7 @@
                 </select>
             </div>
         </div>
-        <div class="col text-right">
+        <div class="text-right">
             <button type="submit" class="btn btn-success">Simpan</button>
             <a class="btn btn-danger" href="{{route('manajemenuser.index')}}">Batalkan</a>
         </div>

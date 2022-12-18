@@ -40,8 +40,8 @@
                         <td>{{$value->nisn}}</td>
                         <td>{{$value->nama_siswa}}</td>
                         <td>{{$value->pengajuan_id}}</td>
-                        <td>{{$value->tanggal_mulai}}</td>
-                        <td>{{$value->tanggal_selesai}}</td>
+                        <td>{{Carbon\Carbon::parse($value->tanggal_mulai)->format('d-m-Y')}}</td>
+                        <td>{{Carbon\Carbon::parse($value->tanggal_selesai)->format('d-m-Y')}}</td>
                         <td>{{$value->nama_dudi}}</td>
                         <td>
                             <a href="{{route('konfirmasidudi.file_balasandudi', $value->id)}}">{{$value->balasan_dudi}}</a>

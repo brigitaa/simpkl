@@ -15,31 +15,43 @@
     <form action="{{route('pengajuanPKL.store')}}" method="post" enctype="multipart/form-data">
     @csrf
         <div class="form-group row">
-            <label for="name" class="col-sm-4 col-form-label">Nama Lengkap Siswa</label>
+            <label for="name" class="col-sm-4 col-form-label">Nama Lengkap Siswa<sup class="text-danger">*</sup></label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="nama_siswa" name="name" required value="{{$datasiswa->nama_siswa}}" readonly />
             </div>
         </div>
         <div class="form-group row">
-            <label for="nis" class="col-sm-4 col-form-label">Nomor Induk Siswa (NIS)</label>
+            <label for="nis" class="col-sm-4 col-form-label">Nomor Induk Siswa (NIS)<sup class="text-danger">*</sup></label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="nis" required value="{{$datasiswa->nis}}" readonly />
             </div>
         </div>
         <div class="form-group row">
-            <label for="nisn" class="col-sm-4 col-form-label">Nomor Induk Siswa Nasional (NISN)</label>
+            <label for="nisn" class="col-sm-4 col-form-label">Nomor Induk Siswa Nasional (NISN)<sup class="text-danger">*</sup></label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="nisn" required value="{{$datasiswa->nisn}}" readonly />
             </div>
         </div>
         <div class="form-group row">
-            <label for="jeniskelamin" class="col-sm-4 col-form-label">Jenis Kelamin</label>
+            <label for="jeniskelamin" class="col-sm-4 col-form-label">Jenis Kelamin<sup class="text-danger">*</sup></label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="jeniskelamin" required value="{{$datasiswa->jeniskelamin}}" readonly />
             </div>
         </div>
         <div class="form-group row">
-            <label for="periode" class="col-sm-4 col-form-label">Periode PKL</label>
+            <label for="kelas" class="col-sm-4 col-form-label">Kelas<sup class="text-danger">*</sup></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="kelas" required value="{{$datakelas->nama_kelas}}" readonly />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tahunajaran" class="col-sm-4 col-form-label">Tahun Ajaran<sup class="text-danger">*</sup></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="tahunajaran" required value="{{$tahunajaran->nama_thn_ajaran}}" readonly />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="periode" class="col-sm-4 col-form-label">Periode PKL<sup class="text-danger">*</sup></label>
             <div class="col-sm-3">
                 <select id="tanggal_mulai" class="form-control" name="periode_id" value="{{old('tanggal_mulai')}}" required>
                     <option value="">--Pilih--</option>
@@ -56,7 +68,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="nama_dudi" class="col-sm-4 col-form-label">Nama DU/DI</label>
+            <label for="nama_dudi" class="col-sm-4 col-form-label">Nama DU/DI<sup class="text-danger">*</sup></label>
             <div class="col-sm-8">
                 <select id="nama_dudi" class="form-control" name="dudi_id" value="{{old('nama_dudi')}}" required>
                     <option value="">--Pilih--</option>
@@ -74,13 +86,13 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="alamat_dudi" class="col-sm-4 col-form-label">Alamat DU/DI</label>
+            <label for="alamat_dudi" class="col-sm-4 col-form-label">Alamat DU/DI<sup class="text-danger">*</sup></label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" placeholder="Masukkan alamat DU/DI" name="alamat_dudi" id="alamat_dudi" disabled="disabled" />
             </div>
         </div>
         <div class="form-group row">
-            <label for="pernyataan_ortu" class="col-sm-4 col-form-label">Surat Pernyataan Orang Tua</label>
+            <label for="pernyataan_ortu" class="col-sm-4 col-form-label">Surat Pernyataan Orang Tua<sup class="text-danger">*</sup></label>
             <div class="col-sm-4">
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" name="pernyataan_ortu">
                 <div class="text-danger">
@@ -95,7 +107,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="pernyataan_siswa" class="col-sm-4 col-form-label">Surat Pernyataan Siswa</label>
+            <label for="pernyataan_siswa" class="col-sm-4 col-form-label">Surat Pernyataan Siswa<sup class="text-danger">*</sup></label>
             <div class="col-sm-4">
                 <input type="file" class="form-control-file" id="exampleFormControlFile1" name="pernyataan_siswa">
                 <div class="text-danger">
@@ -110,8 +122,11 @@
             </div>
         </div>
         <div class="form-group row">
-            <div class="col text-right">
+            <div class="col-sm-6 text-right">
                 <button type="submit" class="btn btn-block btn-success">Simpan</button>
+            </div>
+            <div class="col-sm-6 text-right">
+                <a class="btn btn-block btn-danger" href="{{route('pengajuanPKL.index')}}">Batalkan</a>
             </div>
         </div>
     </form>

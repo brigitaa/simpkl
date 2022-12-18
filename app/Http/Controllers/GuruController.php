@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Guru;
+use App\Models\Guru_monitoring;
 
 class GuruController extends Controller
 {
@@ -110,9 +111,15 @@ class GuruController extends Controller
      */
     public function destroy($id)
     {
-        $guru = Guru::find($id);
+        $guru=Guru::where('id', $id)->first();
+        $cekdata = Guru_monitoring::where('guru_id',$id)->first();
 
-        $guru->delete();
-        return redirect()->route('guru.index')->with('success','Guru berhasil dihapus');
+        if ($cekdata != null) {
+            return redirect()->route('guru.index')->with('error','Data guru sedang digunakan');
+        }
+        else {
+            $guru->delete();
+            return redirect()->route('guru.index')->with('success','Guru berhasil dihapus');
+        }  
     }
 }

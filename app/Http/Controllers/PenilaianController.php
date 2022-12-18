@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Penilaian;
 use App\Models\Penempatan;
 use App\Models\Konfirmasi_dudi;
 use App\Models\Pengajuan;
@@ -18,26 +19,47 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Kaprog;
 use Auth;
+use Illuminate\Support\Facades\File;
+use Response; 
 
-class PenempatanController extends Controller
+class PenilaianController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
+    {
+        $siswa = Siswa::all();
+        $periode = Periode::all();
+        $dudi = Dudi::all();
+        $kelas = Kelas::all();
+        $tahunajaran = Thn_ajaran::all();
+
+        $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                                ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
+                                ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
+                                ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
+                                ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
+                                ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                                ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi')
+                                ->where('users_id', Auth::user()->id)
+                                ->get();  
+        // dd($penilaian);
+
+        return view('penilaianPKL.index', compact('penilaian', 'siswa', 'periode', 'dudi',  'kelas', 'tahunajaran'));
+    }
+
+    public function lihat(Request $request)
     {
         $user_id = Auth::user()->id;
         $user = User::where('id', $user_id)->first();
         $role = Role::where('id',$user->role_id)->first();
         session(['role' => $role->nama_role]);
 
-        $konfirmasidudi = Konfirmasi_dudi::all();
-        $gurumonitoring = Guru_monitoring::all();
-
-        $guru = Guru::all();
-        $pengajuan = Pengajuan::all();
         $siswa = Siswa::all();
         $periode = Periode::all();
         $dudi = Dudi::all();
@@ -56,67 +78,59 @@ class PenempatanController extends Controller
 
         if (!$request->all() || ($request->nama_kelas == '' && $request->nama_thn_ajaran == '')){
             if ($role->nama_role == 'Kaprog') {
-                $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
                                 ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
                                 ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                                 ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                                 ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                                 ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
                                 ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi') 
                                 ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
                                 ->get();
             }
     
             else {
-                $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
                                 ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
                                 ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                                 ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                                 ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                                 ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
                                 ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi') 
                                 ->get();  
             }
         }
 
         elseif ($request->nama_kelas != NULL && $request->nama_thn_ajaran == NULL){
             if ($role->nama_role == 'Kaprog') {
-                $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
                                 ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
                                 ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                                 ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                                 ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                                 ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
                                 ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi') 
                                 ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
                                 ->where('nama_kelas', '=', $request->nama_kelas)
                                 ->get();
             }
     
             else {
-                $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
                                 ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
                                 ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                                 ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                                 ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                                 ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
                                 ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi') 
                                 ->where('nama_kelas', '=', $request->nama_kelas)
                                 ->get();  
             }
@@ -124,34 +138,30 @@ class PenempatanController extends Controller
 
         elseif ($request->nama_kelas == NULL && $request->nama_thn_ajaran != NULL ){
             if ($role->nama_role == 'Kaprog') {
-                $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
                                 ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
                                 ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                                 ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                                 ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                                 ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
                                 ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi') 
                                 ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
                                 ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
                                 ->get();
             }
     
             else {
-                $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
                                 ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
                                 ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                                 ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                                 ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                                 ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
                                 ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi') 
                                 ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
                                 ->get();  
             }    
@@ -159,17 +169,15 @@ class PenempatanController extends Controller
 
         else {
             if ($role->nama_role == 'Kaprog') {
-                $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
                                 ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
                                 ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                                 ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                                 ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                                 ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
                                 ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi') 
                                 ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
                                 ->where('nama_kelas', '=', $request->nama_kelas)
                                 ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
@@ -177,53 +185,22 @@ class PenempatanController extends Controller
             }
     
             else {
-                $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
+                $penilaian = Penilaian::leftjoin('penempatan', 'penempatan.id', 'penilaian.penempatan_id')
+                                ->leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
                                 ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
                                 ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                                 ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                                 ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
                                 ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
                                 ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
+                                ->select('penilaian.*', 'siswa.nama_siswa', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi') 
                                 ->where('nama_kelas', '=', $request->nama_kelas)
                                 ->where('nama_thn_ajaran', '=', $request->nama_thn_ajaran)
                                 ->get();
             }
         }
 
-        return view('penempatanPKL.index', compact('penempatan', 'gurumonitoring', 'guru', 'konfirmasidudi', 'pengajuan', 'siswa', 'periode', 'dudi',  'kelas', 'tahunajaran'));
-    }
-
-    public function lihat(Request $request)
-    {
-        $konfirmasidudi = Konfirmasi_dudi::all();
-        $gurumonitoring = Guru_monitoring::all();
-        $guru = Guru::all();
-        $pengajuan = Pengajuan::all();
-        $siswa = Siswa::all();
-        $periode = Periode::all();
-        $dudi = Dudi::all();
-        $kelas = Kelas::all();
-        $tahunajaran = Thn_ajaran::all();
-
-        $penempatan = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
-                                ->leftjoin('pengajuan', 'pengajuan.id', 'konfirmasi_dudi.pengajuan_id')
-                                ->leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
-                                ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
-                                ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
-                                ->leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
-                                ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
-                                ->leftjoin('guru_monitoring', 'guru_monitoring.id', 'penempatan.guru_monitoring_id')
-                                ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
-                                ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
-                                ->select('penempatan.*', 'siswa.nama_siswa', 'siswa.no_telp', 'kelas.nama_kelas', 'thn_ajaran.nama_thn_ajaran', 'periode.tanggal_mulai','periode.tanggal_selesai','dudi.nama_dudi', 'dudi.alamat_dudi', 'guru.nama_guru', 'status_pkl.nama_status_pkl')
-                                ->where('users_id', Auth::user()->id)
-                                ->get();  
-
-        return view('penempatanPKL.lihat', compact('penempatan', 'gurumonitoring', 'guru', 'konfirmasidudi', 'pengajuan', 'siswa', 'periode', 'dudi',  'kelas', 'tahunajaran'));
+        return view('penilaianPKL.lihat', compact('penilaian', 'siswa', 'periode', 'dudi',  'kelas', 'tahunajaran'));
     }
 
     /**
@@ -266,20 +243,18 @@ class PenempatanController extends Controller
      */
     public function edit($id)
     {
-        $penempatan = Penempatan::where('id', $id)->first();
-        $konfirmasidudi = Konfirmasi_dudi::where('id', $penempatan->konfirmasi_dudi_id)->first();
-        $gurumonitoring = Guru_monitoring::where('id', $penempatan->guru_monitoring_id)->first();
-        $statuspkl = Status_pkl::all();
+        $penilaian = Penilaian::where('id', $id)->first();
 
+        $penempatan = Penempatan::where('id', $penilaian->penempatan_id)->first();
+        $konfirmasidudi = Konfirmasi_dudi::where('id', $penempatan->konfirmasi_dudi_id)->first();
         $pengajuan = Pengajuan::where('id', $konfirmasidudi->pengajuan_id)->first();
         $datasiswa = Siswa::where('siswa.id', $pengajuan->siswa_id)->first(); 
         $datakelas = Kelas::where('kode_kelas', $datasiswa->kode_kelas)->first();
         $tahunajaran = Thn_ajaran::where('kode_thn_ajaran', $datasiswa->kode_thn_ajaran)->first();
         $dataperiode = Periode::where('id', $pengajuan->periode_id)->first();
         $datadudi = Dudi::where('id', $pengajuan->dudi_id)->first();
-        $dataguru = Guru::where('id', $gurumonitoring->guru_id)->first();
  
-        return view('penempatanPKL.ubah', compact('penempatan', 'konfirmasidudi', 'gurumonitoring', 'statuspkl', 'pengajuan', 'datasiswa', 'datakelas', 'tahunajaran', 'dataperiode', 'datadudi', 'dataguru'));
+        return view('penilaianPKL.ubah', compact('penilaian', 'penempatan', 'konfirmasidudi', 'pengajuan', 'datasiswa', 'datakelas', 'tahunajaran', 'dataperiode', 'datadudi'));
     }
 
     /**
@@ -291,14 +266,40 @@ class PenempatanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $penempatan = Penempatan::where('id', $id)->first();
-        $statuspkl = Status_pkl::where('id', $request->status_pkl_id)->first();
+        $penilaian = Penilaian::where('id', $id)->first();
 
-        $penempatanupdate = Penempatan::where('id',$id)->update([
-            'status_pkl_id'=>$statuspkl->id
+        if ($penilaian->sertifikat == NULL) {
+			$request->validate([
+				'sertifikat' => 'required|mimes:pdf|max:1000',
+				'nilai' => 'required|numeric',
+        	]);
+            $file_sertifikat = $request->file('sertifikat');
+            $fileName_sertifikat = uniqid(). '_' .$file_sertifikat->getClientOriginalName();
+            $file_sertifikat->move(public_path('storage/sertifikat'), $fileName_sertifikat);
+            $exist_sertifikat = $penilaian->update(['sertifikat'=>$fileName_sertifikat]);
+        }
+        else {
+			$request->validate([
+				'sertifikat' => 'mimes:pdf|max:1000',
+				'nilai' => 'numeric',
+        	]);
+			if($request->hasfile('sertifikat')) {
+				$file_sertifikat = $request->file('sertifikat');
+				$fileName_sertifikat = uniqid(). '_' .$file_sertifikat->getClientOriginalName();
+				$sertifikat_path = public_path("storage/sertifikat/{$penilaian->sertifikat}");
+				if (File::exists($sertifikat_path)) {
+					unlink($sertifikat_path);
+				}
+				$file_sertifikat->move(public_path('storage/sertifikat'), $fileName_sertifikat);
+				$exist_sertifikat = $penilaian->update(['sertifikat'=>$fileName_sertifikat]);
+			}    
+        }
+
+        $penilaianupdate = Penilaian::where('id',$id)->update([
+            'nilai'=>$request->nilai
         ]);
 
-        return redirect()->route('penempatanPKL.index')->with('success','Data penempatan  berhasil diubah');
+        return redirect()->route('penilaianPKL.index')->with('success','Data penilaian PKL  berhasil diubah');
     }
 
     /**
@@ -310,5 +311,30 @@ class PenempatanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function file_sertifikat($id)
+    {
+        $penilaian = Penilaian::findOrFail($id);
+        $filepath = public_path("storage/sertifikat/{$penilaian->sertifikat}");
+        return Response::download($filepath); 
+    }
+
+    public function verifikasi_nilai($id)
+    {
+        $penilaian = Penilaian::findOrFail($id);
+            $penilaian->update([
+                'status_verif_nilai'=>'Sudah diverifikasi'
+            ]);
+        return redirect()->route('penilaianPKL.lihat')->with('success','Penilaian PKL telah diverifikasi');  
+    }
+
+    public function batal_verifikasi_nilai($id)
+    {
+        $penilaian = Penilaian::findOrFail($id);
+            $penilaian->update([
+                'status_verif_nilai'=>'Belum diverifikasi'
+            ]);
+        return redirect()->route('penilaianPKL.lihat')->with('success','Verifikasi penilaian PKL berhasil dibatalkan');  
     }
 }

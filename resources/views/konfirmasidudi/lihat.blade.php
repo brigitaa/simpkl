@@ -81,8 +81,8 @@
                         <td>{{$value->nama_kelas}}</td>
                         <td>{{$value->nama_thn_ajaran}}</td>
                         <td>{{$value->pengajuan_id}}</td>
-                        <td>{{$value->tanggal_mulai}}</td>
-                        <td>{{$value->tanggal_selesai}}</td>
+                        <td>{{Carbon\Carbon::parse($value->tanggal_mulai)->format('d-m-Y')}}</td>
+                        <td>{{Carbon\Carbon::parse($value->tanggal_selesai)->format('d-m-Y')}}</td>
                         <td>{{$value->nama_dudi}}</td>
                         <td>
                             <a href="{{route('konfirmasidudi.file_balasandudi', $value->id)}}">{{$value->balasan_dudi}}</a>
@@ -155,12 +155,7 @@
                     columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                 }
             }
-        ],
-        language: {
-            "searchPlaceholder": "",
-            "zeroRecords": "Tidak ditemukan data yang sesuai",
-            "emptyTable": "Tidak terdapat data di tabel"
-        }
+        ]
     });
 </script>
 @endpush

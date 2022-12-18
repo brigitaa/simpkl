@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Status_pkl;
+use App\Models\Penempatan;
 
 class StatusPKLController extends Controller
 {
@@ -97,8 +98,14 @@ class StatusPKLController extends Controller
     public function destroy($id)
     {
         $statuspkl = Status_pkl::where('id', $id)->first();
+        $cekdata = Penempatan::where('status_pkl_id',$id)->first();
 
-        $statuspkl->delete();
-        return redirect()->route('statusPKL.index')->with('success','Status PKL berhasil dihapus');
+        if ($cekdata != null) {
+            return redirect()->route('statusPKL.index')->with('error','Data status PKL sedang digunakan');
+        }
+        else {
+            $statuspkl->delete();
+            return redirect()->route('statusPKL.index')->with('success','Status PKL berhasil dihapus');
+        }  
     }
 }

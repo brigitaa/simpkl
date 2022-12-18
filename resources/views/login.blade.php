@@ -8,9 +8,11 @@
         {{ $message }}
     </div>
     @endif
-    @if (Session::has('message'))
+    
+    {{-- message reset password --}}
+    @if (Session::has('message')) 
         <div class="alert alert-success" role="alert">
-            {{ Session::get('message') }}
+            {{ Session::get('message') }} 
         </div>
     @endif
     

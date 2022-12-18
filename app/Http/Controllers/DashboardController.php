@@ -296,7 +296,7 @@ class DashboardController extends Controller
                             ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
                             ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
                             ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
-                            ->where('status_pkl_id', '=', '1')
+                            ->where('nama_status_pkl', '=', 'Belum terlaksana')
                             ->count();
 
             $psb = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
@@ -310,7 +310,7 @@ class DashboardController extends Controller
                             ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
                             ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
                             ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
-                            ->where('status_pkl_id', '=', '2')
+                            ->where('nama_status_pkl', '=', 'Sedang berlangsung')
                             ->count();
 
             $pst = Penempatan::leftjoin('konfirmasi_dudi', 'konfirmasi_dudi.id', 'penempatan.konfirmasi_dudi_id')
@@ -324,7 +324,7 @@ class DashboardController extends Controller
                             ->leftjoin('guru', 'guru.id', 'guru_monitoring.guru_id')
                             ->leftjoin('status_pkl', 'status_pkl.id', 'penempatan.status_pkl_id')
                             ->where('kompetensi_keahlian_id', $datakaprog->kompetensi_keahlian_id)
-                            ->where('status_pkl_id', '=', '3')
+                            ->where('nama_status_pkl', '=', 'Sudah terlaksana')
                             ->count();
         }
 

@@ -20,10 +20,7 @@ class Siswa extends Model
         'kode_kelas',
         'kode_thn_ajaran'
     ];
-
-    // public function kelas() {
-	// 	return $this->hasOne('Siswa', 'siswa_id');
-	// }
+    
     public function pengajuan() {
         return $this->hasMany(Pengajuan::class, 'siswa_id', 'id');
     }

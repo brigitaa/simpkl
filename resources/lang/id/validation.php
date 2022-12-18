@@ -259,13 +259,13 @@ return [
         'pernyataan_ortu' => [
             'required' => 'Surat pernyataan orang tua harus diisi.',
             'mimes' => 'Surat pernyataan orang tua harus berupa file dengan tipe pdf.',
-            'max' => 'Surat pernyataan orang tua harus tidak lebih dari 5 MB.',
+            'max' => 'Surat pernyataan orang tua harus tidak lebih dari 1 MB.',
         ],
 
         'pernyataan_siswa' => [
             'required' => 'Surat pernyataan siswa harus diisi.',
             'mimes' => 'Surat pernyataan siswa harus berupa file dengan tipe pdf.',
-            'max' => 'Surat pernyataan siswa harus tidak lebih dari 5 MB.',
+            'max' => 'Surat pernyataan siswa harus tidak lebih dari 1 MB.',
         ],
 
         'pengajuan_id' => [
@@ -275,7 +275,7 @@ return [
         'balasan_dudi' => [
             'required' => 'Surat balasan dudi harus diisi.',
             'mimes' => 'Surat balasan dudi harus berupa file dengan tipe pdf.',
-            'max' => 'Surat balasan dudi harus tidak lebih dari 5 MB.',
+            'max' => 'Surat balasan dudi harus tidak lebih dari 1 MB.',
         ],
 
         'status_balasan_dudi' => [
@@ -292,6 +292,17 @@ return [
 
         'nama_status_pkl' => [
             'required' => 'Status PKL harus diisi.',
+        ],
+
+        'sertifikat' => [
+            'required' => 'Sertifikat PKL harus diisi.',
+            'mimes' => 'Sertifikat PKL harus berupa file dengan tipe pdf.',
+            'max' => 'Sertifikat PKL harus tidak lebih dari 1 MB.',
+        ],
+
+        'nilai' => [
+            'required' => 'Nilai PKL harus diisi.',
+            'numeric' => 'Nilai PKL harus berupa angka.',
         ],
 
         'password' => [

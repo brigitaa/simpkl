@@ -19,7 +19,10 @@ class Pengajuan extends Model
         'pernyataan_ortu',
         'pernyataan_siswa',
         'status_verif_pokja',
-        'status_verif_kaprog'
+        'status_verif_kaprog',
+        'status_surat',
+        'keterangan',
+        'tahunajaran'
     ];
 
     public function getTanggalMulaiAttribute($value)

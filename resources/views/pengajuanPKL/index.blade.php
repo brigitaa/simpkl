@@ -40,6 +40,8 @@
                         <th>Pernyataan Siswa</th>
                         <th>Status POKJA PKL</th>
                         <th>Status Kaprog</th>
+                        <th>Status Surat</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -78,6 +80,16 @@
                                 <span class="badge badge-danger">{{$value->status_verif_kaprog}}</span>
                             @endif
                         </td>
+                        <td>
+                            @if ($value->status_surat == 'Diproses')
+                                <span class="badge badge-warning">{{$value->status_surat}}</span>
+                            @elseif ($value->status_surat == 'Selesai')
+                                <span class="badge badge-success">{{$value->status_surat}}</span>
+                            @else
+                                <span class="badge badge-danger">{{$value->status_surat}}</span>
+                            @endif
+                        </td>
+                        <td>{{$value->keterangan}}</td>
                         <td>
                             @if ($value->status_verif_pokja != 'Diproses' || $value->status_verif_kaprog != 'Diproses')
                                 <button type="submit" class="btn btn-warning btn-sm" disabled>Ubah</button>

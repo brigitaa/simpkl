@@ -68,11 +68,43 @@
                                     </tr>
                                     <tr>
                                         <td style="font-weight:bold">Status Verifikasi Ketua Pokja PKL</td>
-                                        <td>: {{$pengajuan->status_verif_pokja}}</td>
+                                        <td>: 
+                                            @if ($pengajuan->status_verif_pokja == 'Diproses')
+                                                <span class="badge badge-warning">{{$pengajuan->status_verif_pokja}}</span>
+                                            @elseif ($pengajuan->status_verif_pokja == 'Disetujui')
+                                                <span class="badge badge-success">{{$pengajuan->status_verif_pokja}}</span>
+                                            @else
+                                                <span class="badge badge-danger">{{$pengajuan->status_verif_pokja}}</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight:bold">Status Verifikasi Ketua Program Keahlian</td>
-                                        <td>: {{$pengajuan->status_verif_kaprog}}</td>
+                                        <td>: 
+                                            @if ($pengajuan->status_verif_kaprog == 'Diproses')
+                                                <span class="badge badge-warning">{{$pengajuan->status_verif_kaprog}}</span>
+                                            @elseif ($pengajuan->status_verif_kaprog == 'Disetujui')
+                                                <span class="badge badge-success">{{$pengajuan->status_verif_kaprog}}</span>
+                                            @else
+                                                <span class="badge badge-danger">{{$pengajuan->status_verif_kaprog}}</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight:bold">Status Surat Pengantar PKL</td>
+                                        <td>: 
+                                            @if ($pengajuan->status_surat == 'Diproses')
+                                                <span class="badge badge-warning">{{$pengajuan->status_surat}}</span>
+                                            @elseif ($pengajuan->status_surat == 'Selesai')
+                                                <span class="badge badge-success">{{$pengajuan->status_surat}}</span>
+                                            @else
+                                                <span class="badge badge-danger">{{$pengajuan->status_surat}}</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight:bold">Keterangan</td>
+                                        <td>: {{$pengajuan->keterangan}}</td>
                                     </tr>
                     </tbody></table>
                     </td>

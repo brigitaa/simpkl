@@ -13,7 +13,7 @@
             <label for="nama_status_pkl">Status PKL<sup class="text-danger">*</sup></label>
             <input type="text" class="form-control" id="nama_status_pkl" name="nama_status_pkl" required value="{{$statuspkl->nama_status_pkl}}">
         </div>
-        <div class="col text-right">
+        <div class="text-right">
             <button type="submit" class="btn btn-success">Simpan</button>
             <a class="btn btn-danger" href="{{route('statusPKL.index')}}">Batalkan</a>
         </div>

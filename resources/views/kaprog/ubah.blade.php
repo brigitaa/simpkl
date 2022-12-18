@@ -70,7 +70,8 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="passoword">Password<sup class="text-danger">*</sup></label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password">
+                <input type="password" class="form-control" id="password" name="password">
+                <small class="form-text text-muted">Dikosongkan jika tidak ingin merubah password.</small>
                 <div class="text-danger">
                     @error('password')
                         {{ $message }}
@@ -78,7 +79,7 @@
                 </div>
             </div>
         </div>
-        <div class="col text-right">
+        <div class="text-right">
             <button type="submit" class="btn btn-success">Simpan</button>
             <a class="btn btn-danger" href="{{route('kaprog.index')}}">Batalkan</a>
         </div>

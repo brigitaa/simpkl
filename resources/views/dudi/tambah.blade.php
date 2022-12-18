@@ -26,7 +26,7 @@
                     @enderror
                 </div>
         </div>
-        <div class="col text-right">
+        <div class="text-right">
             <button type="submit" class="btn btn-success">Simpan</button>
             <a class="btn btn-danger" href="{{route('dudi.index')}}">Batalkan</a>
         </div>

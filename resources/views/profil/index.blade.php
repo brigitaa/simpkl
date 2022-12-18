@@ -75,25 +75,25 @@
             <div class="form-group row">
                 <label for="nis" class="col-sm-4 col-form-label">Nomor Induk Siswa (NIS)<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="nis" name="nis" required value="{{$siswa->nis}}">
+                    <input type="text" class="form-control" id="nis" name="nis" disabled value="{{$siswa->nis}}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="name" class="col-sm-4 col-form-label">Nomor Induk Siswa Nasional (NISN)<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="name" name="nisn" required value="{{$siswa->nisn}}">
+                    <input type="text" class="form-control" id="name" name="nisn" disabled value="{{$siswa->nisn}}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="name" class="col-sm-4 col-form-label">Nama Lengkap<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="name" name="name" required value="{{$user->name}}">
+                    <input type="text" class="form-control" id="name" name="name" disabled value="{{$user->name}}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="jeniskelamin" class="col-sm-4 col-form-label">Jenis Kelamin<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <select id="jeniskelamin" class="form-control" name="jeniskelamin" required value="{{$siswa->jeniskelamin}}">
+                    <select id="jeniskelamin" class="form-control" name="jeniskelamin" disabled value="{{$siswa->jeniskelamin}}">
                         <option value="" disabled>--Pilih--</option>
                         @if ($siswa->jeniskelamin=="Laki-laki")
                             <option value="Laki-laki" selected>Laki-laki</option>
@@ -128,7 +128,7 @@
             <div class="form-group row">
                 <label for="email" class="col-sm-4 col-form-label">Email<sup class="text-danger">*</sup></label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="email" name="email" required value="{{$user->email}}" disabled>
+                    <input type="email" class="form-control" id="email" name="email" required value="{{$user->email}}" disabled>
                 </div>
             </div>
             <div class="form-group row">

@@ -22,6 +22,9 @@ class CreatePengajuanTable extends Migration
             $table->string('pernyataan_siswa', 255);
             $table->enum('status_verif_pokja', ['Diproses', 'Disetujui', 'Ditolak'])->default('Diproses');
             $table->enum('status_verif_kaprog', ['Diproses', 'Disetujui', 'Ditolak'])->default('Diproses');
+            $table->enum('status_surat', ['Diproses', 'Selesai', 'Tidak dapat diproses'])->default('Diproses');
+            $table->string('keterangan', 255)->nullable();
+            $table->string('tahunajaran', 255);
             $table->timestamps();
         });
     }

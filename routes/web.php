@@ -18,6 +18,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\GuruMonitoringController;
 use App\Http\Controllers\StatusPKLController;
 use App\Http\Controllers\PenempatanController;
+use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\LupaPasswordController;
 
@@ -31,22 +32,18 @@ use App\Http\Controllers\LupaPasswordController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/register', function () {
-    return view('register');
-
-});
 
 Route::get('/', function () {
     return view('login');
 });
 
-Route::get('/contoh', function () {
-    return view('contoh');
-});
+// Route::get('/contoh', function () {
+//     return view('contoh');
+// });
 
 
 
-Route::post('/post-register', [AuthController::class, 'register'])->name('auth.register');
+// Route::post('/post-register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/post-login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -60,6 +57,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/pengajuanPKL-filepernyataanortu/{id}', [PengajuanController::class, 'file_pernyataanortu'])->name('pengajuanPKL.file_pernyataanortu');
     Route::get('/pengajuanPKL-filepernyataansiswa/{id}', [PengajuanController::class, 'file_pernyataansiswa'])->name('pengajuanPKL.file_pernyataansiswa');
     Route::get('/konfirmasidudi-filebalasandudi/{id}', [KonfirmasiDUDIController::class, 'file_balasandudi'])->name('konfirmasidudi.file_balasandudi');
+    Route::get('/penilaian-filesertifikat/{id}', [PenilaianController::class, 'file_sertifikat'])->name('penilaianPKL.file_sertifikat');
     
 });
 
@@ -75,12 +73,13 @@ Route::group(['middleware' => ['auth']], function(){
 Route::group(['middleware' => ['auth','checkrole:Admin']], function(){
     
     Route::resource('datasiswaPKL', DataSiswaController::class);
+    Route::get('/datasiswaPKL-filter', [DataSiswaController::class, 'index_filter'])->name('datasiswaPKL.index_filter');
     Route::get('/datasiswaPKL-impor', [DataSiswaController::class, 'impor'])->name('datasiswaPKL.impor');
     Route::get('/datasiswaPKL-downloadfile', [DataSiswaController::class, 'downloadfile'])->name('datasiswaPKL.downloadfile');
     Route::post('/datasiswaPKL-import', [DataSiswaController::class, 'import'])->name('datasiswaPKL.import');
     Route::resource('tahunajaran', ThnAjaranController::class);
     Route::resource('kompetensikeahlian', KeahlianController::class);
-    Route::get('/kompetensikeahlian-getdata', [KeahlianController::class, 'get_data_keahlian'])->name('kompetensikeahlian.get_data_keahlian');
+    // Route::get('/kompetensikeahlian-getdata', [KeahlianController::class, 'get_data_keahlian'])->name('kompetensikeahlian.get_data_keahlian');
     Route::resource('kelas', KelasController::class);
     Route::resource('kaprog', KaprogController::class);
     Route::resource('manajemenuser', UserController::class);
@@ -112,6 +111,9 @@ Route::group(['middleware' => ['auth','checkrole:Admin,Ketua Pokja PKL,Kaprog,Ta
     Route::get('/konfirmasidudi/{id}/edit', [KonfirmasiDUDIController::class, 'edit'])->name('konfirmasidudi.edit');
     Route::put('/konfirmasidudi/{id}/update', [KonfirmasiDUDIController::class, 'update'])->name('konfirmasidudi.update');
     Route::resource('penempatanPKL', PenempatanController::class);
+    Route::get('/penilaianPKL-index', [PenilaianController::class, 'lihat'])->name('penilaianPKL.lihat');
+    Route::post('/penilaianPKL-verifikasi/{id}', [PenilaianController::class, 'verifikasi_nilai'])->name('penilaianPKL.verifikasi_nilai');
+    Route::post('/penilaianPKL-cancelverifikasi/{id}', [PenilaianController::class, 'batal_verifikasi_nilai'])->name('penilaianPKL.batal_verifikasi_nilai');
     
 }); 
 
@@ -128,6 +130,7 @@ Route::group(['middleware' => ['auth','checkrole:Siswa']], function(){
     Route::post('/konfirmasidudi/store', [KonfirmasiDUDIController::class, 'store'])->name('konfirmasidudi.store');
     Route::get('get/pengajuan/{id}', [KonfirmasiDUDIController::class, 'getPengajuan'])->name('getPengajuan');
     Route::get('/penempatanPKL-index', [PenempatanController::class, 'lihat'])->name('penempatanPKL.lihat');
+    Route::resource('penilaianPKL', PenilaianController::class);
 }); 
 
 Route::group(['middleware' => ['auth','checkrole:Ketua Pokja PKL']], function(){
@@ -143,13 +146,19 @@ Route::group(['middleware' => ['auth','checkrole:Kaprog']], function(){
     Route::post('/pengajuanPKL-cancelkaprog/{id}', [PengajuanController::class, 'batal_pengajuan_kaprog'])->name('pengajuanPKL.batal_pengajuan_kaprog');
 }); 
 
+Route::group(['middleware' => ['auth','checkrole:Ketua Pokja PKL,Kaprog']], function(){
+    Route::put('/pengajuanPKL-index/{id}/update', [PengajuanController::class, 'updateketerangan'])->name('pengajuanPKL.updateketerangan');
+}); 
+
 Route::group(['middleware' => ['auth','checkrole:Tata Usaha']], function(){
-    Route::get('/pengajuanPKL-cetak/{id}', [PengajuanController::class, 'create_file_pengajuan'])->name('pengajuanPKL.create_file_pengajuan');
+    // Route::get('/pengajuanPKL-cetak/{id}', [PengajuanController::class, 'create_file_pengajuan'])->name('pengajuanPKL.create_file_pengajuan');
     Route::get('/pengajuanPKL-cetakPDF/{id}', [PengajuanController::class, 'create_surat_pengantar'])->name('pengajuanPKL.create_surat_pengantar');
-    Route::get('/contohsurat', function () {
-        return view('pengajuanPKL.contohsurat');
-    
-    });
+    Route::post('/pengajuanPKL-approvesurat/{id}', [PengajuanController::class, 'surat_selesai'])->name('pengajuanPKL.surat_selesai');
+    Route::post('/pengajuanPKL-rejectsurat/{id}', [PengajuanController::class, 'surat_tidak_diproses'])->name('pengajuanPKL.surat_tidak_diproses');
+    Route::post('/pengajuanPKL-cancelsurat/{id}', [PengajuanController::class, 'surat_diproses'])->name('pengajuanPKL.surat_diproses');
+    // Route::get('/contohsurat', function () {
+    //     return view('pengajuanPKL.contohsurat');
+    // });
 }); 
 
 // Route::get('/datasiswaPKL', function () {
@@ -161,3 +170,11 @@ Route::group(['middleware' => ['auth','checkrole:Tata Usaha']], function(){
 //     return view('datasiswaPKL.tambah');
 
 // });
+
+Route::get('/suratortu', function () {
+    return view('pengajuanPKL.suratortu');
+});
+
+Route::get('/suratsiswa', function () {
+    return view('pengajuanPKL.suratsiswa');
+});

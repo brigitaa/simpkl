@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Roles;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AuthlamaController extends Controller
 {
     public function index()
     {

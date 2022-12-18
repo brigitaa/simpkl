@@ -24,20 +24,20 @@ class AuthController extends Controller
         ]);
         
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            $request->session()->regenerate();
+            $request->session()->regenerate(); //membuat sesi untuk akun yang login
             $user_id = Auth::user()->id;
             $user = User::where('id', $user_id)->first();
             $role = Role::where('id',$user->role_id)->first();
             session(['role' => $role->nama_role]);
             // dd($role->nama_role);
             if ($role->nama_role == 'Kaprog') {
-                return redirect(route('dashboard.kaprog')); // edit kalau mau merubah halaman awal yang ingin dituju
+                return redirect(route('dashboard.kaprog')); 
             }
             elseif ($role->nama_role == 'Siswa') {
-                return redirect(route('dashboard.siswa')); // edit kalau mau merubah halaman awal yang ingin dituju
+                return redirect(route('dashboard.siswa')); 
             }
             else {
-                return redirect(route('dashboard.index')); // edit kalau mau merubah halaman awal yang ingin dituju
+                return redirect(route('dashboard.index')); 
             }
         }
         
@@ -46,30 +46,30 @@ class AuthController extends Controller
         }
     }
 
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users,email',
-            'username' => 'required|unique:users,username',
-            'password' => 'required|unique:users,password',
-        ]);
+    // public function register(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'email' => 'required|unique:users,email',
+    //         'username' => 'required|unique:users,username',
+    //         'password' => 'required|unique:users,password',
+    //     ]);
 
-        $user = User::create([
-            'name'=>$request->name,
-            'username'=>$request->username,
-            'email'=>$request->email,
-            'password' => Hash::make($request->password),
-            'remember_token' => \Str::random(50),
-            'role_id'=>'1'
-        ]);
+    //     $user = User::create([
+    //         'name'=>$request->name,
+    //         'username'=>$request->username,
+    //         'email'=>$request->email,
+    //         'password' => Hash::make($request->password),
+    //         'remember_token' => \Str::random(50),
+    //         'role_id'=>'1'
+    //     ]);
 
-        return redirect('/register')->with('success','Akun berhasil dibuat');
-    }
+    //     return redirect('/register')->with('success','Akun berhasil dibuat');
+    // }
 
     public function logout(Request $request)
     {
-        $request->session()->flush();
+        $request->session()->flush(); //menghapus sesi
         Auth::logout();
         return redirect('/');
     }

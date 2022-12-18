@@ -22,6 +22,7 @@ class UserController extends Controller
         $role = Role::all();
         $user = User::leftjoin('role', 'role.id', 'users.role_id')
                         ->select('users.*','role.nama_role')
+                        ->orderBy('role.id')
                         ->get();
         return view('manajemenuser.index', compact('user', 'role'));
     }
@@ -140,19 +141,15 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user=User::where('id', $id)->first();
+        $user = User::where('id', $id)->first();
 
         $cekdatasiswa = Siswa::where('users_id',$id)->first();
         $cekdatakaprog = Kaprog::where('users_id',$id)->first();
-        $cekdatalogin = User::where('id', Auth::user()->id)->first();
 
         if ($cekdatasiswa != null) {
             return redirect()->route('manajemenuser.index')->with('error','Data user sedang digunakan');
         }
         elseif ($cekdatakaprog != null) {
-            return redirect()->route('manajemenuser.index')->with('error','Data user sedang digunakan');
-        }
-        elseif ($cekdatalogin != null) {
             return redirect()->route('manajemenuser.index')->with('error','Data user sedang digunakan');
         }
         else {

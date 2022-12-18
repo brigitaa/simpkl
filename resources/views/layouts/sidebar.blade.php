@@ -1,13 +1,33 @@
 <ul class="navbar-nav bg-white sidebar accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    @if ((session('role') == 'Admin') || (session('role') == 'Ketua Pokja PKL') || (session('role') == 'Tata Usaha'))
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('dashboard.index')}}">
         <div class="sidebar-brand-icon">
             <img src="{{ asset('img/smk2.png') }}" alt="" width="40" height="39"
                 class="d-inline-block align-text-TOP">
         </div>
        <div class="sidebar-brand-text mx-3">SIM PKL</div>
     </a>
+    @endif
+    @if ((session('role') == 'Kaprog'))
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('dashboard.kaprog')}}">
+        <div class="sidebar-brand-icon">
+            <img src="{{ asset('img/smk2.png') }}" alt="" width="40" height="39"
+                class="d-inline-block align-text-TOP">
+        </div>
+       <div class="sidebar-brand-text mx-3">SIM PKL</div>
+    </a>
+    @endif
+    @if ((session('role') == 'Siswa'))
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('dashboard.siswa')}}">
+        <div class="sidebar-brand-icon">
+            <img src="{{ asset('img/smk2.png') }}" alt="" width="40" height="39"
+                class="d-inline-block align-text-TOP">
+        </div>
+       <div class="sidebar-brand-text mx-3">SIM PKL</div>
+    </a>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
@@ -112,6 +132,11 @@
             <i class="fas fa-fw fa-list"></i>
             <span>Daftar Penempatan PKL</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('penilaianPKL.lihat')}}">
+            <i class="fas fa-fw fa-star"></i>
+            <span>Daftar Penilaian PKL</span></a>
+    </li>
     @endif
 
     @if (session('role') == 'Ketua Pokja PKL')
@@ -155,6 +180,11 @@
             <i class="fas fa-fw fa-list"></i>
             <span>Daftar Penempatan PKL</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('penilaianPKL.lihat')}}">
+            <i class="fas fa-fw fa-star"></i>
+            <span>Daftar Penilaian PKL</span></a>
+    </li>
     @endif
 
     @if (session('role') == 'Kaprog')
@@ -177,6 +207,11 @@
         <a class="nav-link" href="{{url('penempatanPKL')}}">
             <i class="fas fa-fw fa-list"></i>
             <span>Daftar Penempatan PKL</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('penilaianPKL.lihat')}}">
+            <i class="fas fa-fw fa-star"></i>
+            <span>Daftar Penilaian PKL</span></a>
     </li>
     @endif
 
@@ -206,6 +241,11 @@
             <i class="fas fa-fw fa-list"></i>
             <span>Daftar Penempatan PKL</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('penilaianPKL.lihat')}}">
+            <i class="fas fa-fw fa-star"></i>
+            <span>Daftar Penilaian PKL</span></a>
+    </li>
     @endif
 
     @if (session('role') == 'Siswa')
@@ -223,6 +263,11 @@
         <a class="nav-link" href="{{route('penempatanPKL.lihat')}}">
             <i class="fas fa-fw fa-list"></i>
             <span>Penempatan PKL</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('penilaianPKL.index')}}">
+            <i class="fas fa-fw fa-star"></i>
+            <span>Penilaian PKL</span></a>
     </li>
     @endif
 

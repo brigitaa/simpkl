@@ -68,6 +68,8 @@
                         <th>Nama DU/DI</th>
                         <th>Status POKJA PKL</th>
                         <th>Status Kaprog</th>
+                        <th>Status Surat</th>
+                        <th>Keterangan</th>
                         <th>Created At</th>
                         <th>Updated At</th>
                         <th>Aksi</th>
@@ -104,6 +106,16 @@
                                 <span class="badge badge-danger">{{$value->status_verif_kaprog}}</span>
                             @endif
                         </td>
+                        <td>
+                            @if ($value->status_surat == 'Diproses')
+                                <span class="badge badge-warning">{{$value->status_surat}}</span>
+                            @elseif ($value->status_surat == 'Selesai')
+                                <span class="badge badge-success">{{$value->status_surat}}</span>
+                            @else
+                                <span class="badge badge-danger">{{$value->status_surat}}</span>
+                            @endif
+                        </td>
+                        <td>{{$value->keterangan}}</td>
                         <td>{{$value->created_at}}</td>
                         <td>{{$value->updated_at}}</td>
                         <td>
@@ -126,8 +138,12 @@
                                         <form action="{{ route('pengajuanPKL.batal_pengajuan_pokja',$value->id) }}" method="POST">
                                         @csrf
                                             <button type="submit" class="btn btn-dark btn-sm">Batal</button>
+                                            {{-- <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#keteranganModal">
+                                                <i class="fas fa-fw fa-plus"></i>Keterangan
+                                            </a> --}}
+                                            <button type="button" class="btn btn-info btn-sm edit" data-toggle="modal" data-target="#keteranganModal" data-url="{{ route('pengajuanPKL.updateketerangan', $value->id) }}"
+                                                data-value="{{ $value->keterangan }}"> <i class="fas fa-fw fa-plus"></i>Keterangan</button>
                                         </form>
-
                                     @endif
                                 @endif
 
@@ -147,6 +163,10 @@
                                         <form action="{{ route('pengajuanPKL.batal_pengajuan_kaprog',$value->id) }}" method="POST">
                                         @csrf
                                             <button type="submit" class="btn btn-dark btn-sm">Batal</button>
+                                            <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#keteranganModal" data-url="{{ route('pengajuanPKL.updateketerangan', $value->id) }}"
+                                                data-value="{{ $value->keterangan }}">
+                                                <i class="fas fa-fw fa-plus"></i>Keterangan
+                                            </a>
                                         </form>
 
                                     @endif
@@ -154,10 +174,26 @@
 
                                 @if (session('role') == 'Tata Usaha')
                                     @if ($value->status_verif_pokja == 'Disetujui' && $value->status_verif_kaprog == 'Disetujui')
-                                        <a class="btn btn-dark btn-sm" id="cetak" href="{{ route('pengajuanPKL.create_surat_pengantar',$value->id) }}" target="_blank">Cetak</a>
-                        
+                                        <a class="btn btn-info btn-sm" id="cetak" href="{{ route('pengajuanPKL.create_surat_pengantar',$value->id) }}" target="_blank">Cetak</a>
                                     @else
-                                        <button type="submit" class="btn btn-dark btn-sm" disabled>Cetak</button>
+                                        <button type="submit" class="btn btn-info btn-sm" disabled>Cetak</button>
+                                    @endif
+                                    @if ($value->status_surat == 'Diproses')
+                                        <form action="{{ route('pengajuanPKL.surat_selesai',$value->id) }}" method="POST">
+                                        @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Selesai</button>
+                                        </form>
+                        
+                                        <form action="{{ route('pengajuanPKL.surat_tidak_diproses',$value->id) }}" method="POST">
+                                        @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm">Tidak dapat diproses</button>
+                                        </form>
+
+                                    @else
+                                        <form action="{{ route('pengajuanPKL.surat_diproses',$value->id) }}" method="POST">
+                                        @csrf
+                                            <button type="submit" class="btn btn-dark btn-sm">Batal</button>
+                                        </form>
                                     @endif
                                 @endif
                             </div>
@@ -167,6 +203,38 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Keterangan modal --}}
+        <div class="modal fade" id="keteranganModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form method="POST">
+            @method('PUT')
+            @csrf
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ubah Keterangan</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama">Keterangan<sup class="text-danger">*</sup></label>
+                            <input type="text" class="form-control" name="keterangan"
+                                placeholder="Masukkan keterangan">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                        <button class="btn btn-danger" type="button"
+                            data-dismiss="modal">Batalkan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+ 
         {{-- <script type="text/javascript">
             // $('#filter').on('click',function(){
             //     var selectedValue = $('#filter_kelas').val();
@@ -193,7 +261,7 @@
         dom: '<lfB<t>ip>',
         "responsive": true,
         orderable: [
-            [14, "asc"]
+            [16, "asc"]
         ],
         lengthMenu: [
             [ 10, 25, 50, 100, 1000, -1 ],
@@ -203,7 +271,7 @@
             {
                 "searchable": false,
                 "orderable": false,
-                "targets": 14,
+                "targets": 16,
             },
         ],
         buttons: [
@@ -217,10 +285,21 @@
                         page: 'all',
                         search: 'none'
                     },
-                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                 }
             }
         ]
+    });
+
+    $('#keteranganModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var url = button.data('url') 
+        var value = button.data('value') 
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('form').attr('action', url)
+        modal.find('input[name="keterangan"]').val(value)
     });
 </script>
 @endpush

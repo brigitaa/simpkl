@@ -16,12 +16,12 @@
 
         <div class="form-group">
             <label for="email_address">Email</label>
-            <input type="email" id="email_address" class="form-control" name="email" required autofocus>
+            <input type="text" id="email_address" class="form-control" name="email" value="{{$email->email}}" disabled>
         </div>
 
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" class="form-control" name="password" required autofocus>
+            <label for="password">Password<sup class="text-danger">*</sup></label>
+            <input type="password" id="password" class="form-control" name="password" placeholder="Masukkan password" required autofocus>
             <div class="text-danger">
                 <small>
                     @error('password')
@@ -32,8 +32,8 @@
         </div>
 
         <div class="form-group">
-            <label for="password-confirm">Confirm Password</label>
-            <input type="password" id="password-confirm" class="form-control" name="password_confirmation" required autofocus>
+            <label for="password-confirm">Konfirmasi Password<sup class="text-danger">*</sup></label>
+            <input type="password" id="password-confirm" class="form-control" name="password_confirmation" placeholder="Masukkan konfirmasi password" required autofocus>
         </div>
         <div>      
             <button type="submit" class="btn btn-block btn-sm" style="background-color: #4e73df; color:white">

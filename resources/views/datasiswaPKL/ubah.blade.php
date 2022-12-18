@@ -109,9 +109,10 @@
             <div class="form-group col-md-4">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password">
+                <small class="form-text text-muted">Dikosongkan jika tidak ingin merubah password.</small>
             </div>
         </div>
-        <div class="col text-right">
+        <div class="text-right">
             <button type="submit" class="btn btn-success">Simpan</button>
             <a class="btn btn-danger" href="{{route('datasiswaPKL.index')}}">Batalkan</a>
         </div>
