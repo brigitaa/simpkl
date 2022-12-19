@@ -659,4 +659,59 @@ class PengajuanController extends Controller
         return $pdf->stream($fileName_pengajuanPKLPDF);
     }
 
+    public function create_surat_pernyataan_ortu()
+    {
+        $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->where('users_id', Auth::user()->id)
+                            ->first();
+        
+
+        $template = new \PhpOffice\PhpWord\TemplateProcessor(public_path('doc/Surat Pernyataan Orang Tua.docx'));
+        $fileName_suratpernyataanortu = $siswa['nis'] . '_' . $siswa['nama_siswa'] . '_Surat Pernyataan Orang Tua.docx';
+        
+        Carbon::setLocale('id');
+
+        $today = Carbon::now()->isoFormat('D MMMM Y');
+        
+        $template->setValue('tanggal_sekarang', $today);
+        $template->setValue('nama_siswa', $siswa->nama_siswa);
+        $template->setValue('nis', $siswa->nis);
+        $template->setValue('nama_kelas', $siswa->nama_kelas);
+        $template->setValue('nama_ortu', $siswa->nama_ortu);
+        $template->setValue('pekerjaan_ortu', $siswa->pekerjaan_ortu);
+        $template->setValue('alamat_ortu', $siswa->alamat_ortu);
+        $template->setValue('rt_ortu', $siswa->rt_ortu);
+        $template->setValue('norumah_ortu', $siswa->norumah_ortu);
+        $template->setValue('kelurahan_ortu', $siswa->kelurahan_ortu);
+        $template->setValue('hp_ortu', $siswa->hp_ortu);  
+
+        $template->saveAs($fileName_suratpernyataanortu);
+        return Response::download($fileName_suratpernyataanortu); 
+    }
+
+    public function create_surat_pernyataan_siswa()
+    {
+        $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->where('users_id', Auth::user()->id)
+                            ->first();
+
+        $template = new \PhpOffice\PhpWord\TemplateProcessor(public_path('doc/Surat Pernyataan Siswa Prakerin.docx'));
+        $fileName_suratpernyataansiswa = $siswa['nis'] . '_' . $siswa['nama_siswa'] . '_Surat Pernyataan Siswa.docx';
+        
+        Carbon::setLocale('id');
+
+        $today = Carbon::now()->isoFormat('D MMMM Y');
+
+        $template->setValue('nama_siswa', $siswa->nama_siswa);
+        $template->setValue('nis', $siswa->nis);
+        $template->setValue('nama_kelas', $siswa->nama_kelas);
+        $template->setValue('tanggal_sekarang', $today);
+        $template->setValue('nama_ortu', $siswa->nama_ortu);
+               
+        $template->saveAs($fileName_suratpernyataansiswa);
+        return Response::download($fileName_suratpernyataansiswa); 
+    }
+
 }   

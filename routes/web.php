@@ -122,8 +122,8 @@ Route::group(['middleware' => ['auth','checkrole:Siswa']], function(){
     Route::resource('pengajuanPKL', PengajuanController::class);
     Route::get('get/periode/{id}', [PengajuanController::class, 'getPeriode'])->name('getPeriode');
     Route::get('get/dudi/{id}', [PengajuanController::class, 'getDudi'])->name('getDudi');
-    Route::get('/pengajuanPKL-pernyataanortu', [PengajuanController::class, 'pernyataanortu'])->name('pengajuanPKL.pernyataanortu');
-    Route::get('/pengajuanPKL-pernyataansiswa', [PengajuanController::class, 'pernyataansiswa'])->name('pengajuanPKL.pernyataansiswa');
+    Route::get('/pengajuanPKL-pernyataanortu', [PengajuanController::class, 'create_surat_pernyataan_ortu'])->name('pengajuanPKL.create_surat_pernyataan_ortu');
+    Route::get('/pengajuanPKL-pernyataansiswa', [PengajuanController::class, 'create_surat_pernyataan_siswa'])->name('pengajuanPKL.create_surat_pernyataan_siswa');
     // Route::resource('konfirmasidudi', KonfirmasiDUDIController::class);
     Route::get('/konfirmasidudi', [KonfirmasiDUDIController::class, 'index'])->name('konfirmasidudi.index');
     Route::get('/konfirmasidudi/create', [KonfirmasiDUDIController::class, 'create'])->name('konfirmasidudi.create');

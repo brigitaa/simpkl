@@ -24,6 +24,13 @@ class CreateSiswaTable extends Migration
             $table->integer('users_id');
             $table->string('kode_kelas', 255);
             $table->string('kode_thn_ajaran', 255);
+            $table->string('nama_ortu', 255)->nullable();
+            $table->string('pekerjaan_ortu', 255)->nullable();
+            $table->string('alamat_ortu', 255)->nullable();
+            $table->string('rt_ortu', 255)->nullable();
+            $table->string('norumah_ortu', 255)->nullable();
+            $table->string('kelurahan_ortu', 255)->nullable();
+            $table->string('hp_ortu', 255)->nullable();
             $table->timestamps();
         });
     }

@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.pernyataanortu')}}">
+                <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.create_surat_pernyataan_ortu')}}">
                 <i class="fas fa-download"></i> Download Template</a>
             </div>
         </div>
@@ -117,7 +117,7 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.pernyataansiswa')}}">
+                <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.create_surat_pernyataan_siswa')}}">
                 <i class="fas fa-download"></i> Download Template</a>
             </div>
         </div>

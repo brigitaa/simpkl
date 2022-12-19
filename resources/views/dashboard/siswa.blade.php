@@ -4,6 +4,11 @@
         <h1 class="h3 mb-0 text-gray-800">Dashboard Siswa</h1>
     </div>
     <h6 class="font-weight-bold text-gray-800 mb-4">Selamat Datang di Sistem Informasi Manajemen Praktik Kerja Lapangan, {{ Auth::user()->name }} </h6>
+    @if ($siswa)
+        <div class="alert alert-danger">
+            Harap isi data orang tua / wali siswa pada halaman ubah profil
+        </div>
+    @endif
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">

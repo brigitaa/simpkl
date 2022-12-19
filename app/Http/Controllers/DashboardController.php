@@ -455,6 +455,12 @@ class DashboardController extends Controller
 
     public function siswa()
     {
+        $siswa = Siswa::leftjoin('kelas', 'kelas.kode_kelas', 'siswa.kode_kelas')
+                            ->leftjoin('thn_ajaran', 'thn_ajaran.kode_thn_ajaran', 'siswa.kode_thn_ajaran')
+                            ->where('users_id', Auth::user()->id)
+                            ->where('nama_ortu', '=', NULL)
+                            ->first();
+
         $pengajuan = Pengajuan::leftjoin('siswa', 'siswa.id', 'pengajuan.siswa_id')
                         ->leftjoin('periode', 'periode.id', 'pengajuan.periode_id')
                         ->leftjoin('dudi', 'dudi.id', 'pengajuan.dudi_id')
@@ -478,7 +484,7 @@ class DashboardController extends Controller
                         ->where('status_verif_kaprog', '=','Disetujui')
                         ->count();
 
-        return view('dashboard.siswa', compact('pengajuan', 'pspokja', 'pskaprog'));
+        return view('dashboard.siswa', compact('siswa', 'pengajuan', 'pspokja', 'pskaprog'));
     }
 
     /**

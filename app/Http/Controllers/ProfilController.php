@@ -106,25 +106,27 @@ class ProfilController extends Controller
         $role = Role::where('id',$datauser->role_id)->first();
         session(['role' => $role->nama_role]);
 
-        if ($request->password == NULL) {
-            $user->update([
-                'name'=>$request->name,
-                'username'=>$request->username,
-                'remember_token' => \Str::random(50)
-            ]);
-        }
+        if ($role->nama_role != 'Siswa') {
+            if ($request->password == NULL) {
+                $user->update([
+                    'name'=>$request->name,
+                    'username'=>$request->username,
+                    'remember_token' => \Str::random(50)
+                ]);
+            }
 
-        else {
-            $request->validate([
-                'password' => 'min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
-            ]);
-            
-            $user->update([
-                'name'=>$request->name,
-                'username'=>$request->username,
-                'password' => Hash::make($request->password),
-                'remember_token' => \Str::random(50)
-            ]);
+            else {
+                $request->validate([
+                    'password' => 'min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
+                ]);
+                
+                $user->update([
+                    'name'=>$request->name,
+                    'username'=>$request->username,
+                    'password' => Hash::make($request->password),
+                    'remember_token' => \Str::random(50)
+                ]);
+            }
         }
 
         if ($role->nama_role == 'Kaprog') {
@@ -136,14 +138,40 @@ class ProfilController extends Controller
         }
 
         if ($role->nama_role == 'Siswa') {
+            if ($request->password == NULL) {
+                $user->update([
+                    'username'=>$request->username,
+                    'remember_token' => \Str::random(50)
+                ]);
+            }
+
+            else {
+                $request->validate([
+                    'password' => 'min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/'
+                ]);
+                
+                $user->update([
+                    'username'=>$request->username,
+                    'password' => Hash::make($request->password),
+                    'remember_token' => \Str::random(50)
+                ]);
+            }
+
             $siswa = Siswa::where('users_id', $user_id)->first();
             $siswa->update([
-                'nis'=>$request->nis,
-                'nisn'=>$request->nisn,
-                'nama_siswa'=>$request->name,
-                'jeniskelamin'=>$request->jeniskelamin,
+                // 'nis'=>$request->nis,
+                // 'nisn'=>$request->nisn,
+                // 'nama_siswa'=>$request->name,
+                // 'jeniskelamin'=>$request->jeniskelamin,
                 'alamat'=>$request->alamat,
                 'no_telp'=>$request->no_telp,
+                'nama_ortu'=>$request->nama_ortu,
+                'pekerjaan_ortu'=>$request->pekerjaan_ortu,
+                'alamat_ortu'=>$request->alamat_ortu,
+                'rt_ortu'=>$request->rt_ortu,
+                'norumah_ortu'=>$request->norumah_ortu,
+                'kelurahan_ortu'=>$request->kelurahan_ortu,
+                'hp_ortu'=>$request->hp_ortu
             ]);
         }
         

@@ -18,7 +18,14 @@ class Siswa extends Model
         'no_telp',
         'users_id',
         'kode_kelas',
-        'kode_thn_ajaran'
+        'kode_thn_ajaran',
+        'nama_ortu',
+        'pekerjaan_ortu',
+        'alamat_ortu',
+        'rt_ortu',
+        'norumah_ortu',
+        'kelurahan_ortu',
+        'hp_ortu'
     ];
     
     public function pengajuan() {
