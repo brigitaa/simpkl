@@ -47,7 +47,7 @@
         <div class="form-group row">
             <label for="tahunajaran" class="col-sm-4 col-form-label">Tahun Ajaran<sup class="text-danger">*</sup></label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="tahunajaran" required value="{{$tahunajaran->nama_thn_ajaran}}" readonly />
+                <input type="text" class="form-control" id="tahunajaran" name="tahunajaran" required value="{{$tahunajaran->nama_thn_ajaran}}" readonly />
             </div>
         </div>
         <div class="form-group row">

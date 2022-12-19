@@ -107,7 +107,7 @@
                 <a href="{{route('pengajuanPKL.file_pernyataanortu', $pengajuan->id)}}">{{$pengajuan->pernyataan_ortu}}</a>
             </div>
             <div class="col-sm-4">
-                <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.pernyataanortu')}}">
+                <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.create_surat_pernyataan_ortu')}}">
                 <i class="fas fa-download"></i> Download Template</a>
             </div> 
         </div>
@@ -118,7 +118,7 @@
                 <a href="{{route('pengajuanPKL.file_pernyataansiswa', $pengajuan->id)}}">{{$pengajuan->pernyataan_siswa}}</a>
             </div>
             <div class="col-sm-4">
-                <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.pernyataansiswa')}}">
+                <a class="btn btn-primary btn-sm" href="{{route('pengajuanPKL.create_surat_pernyataan_siswa')}}">
                 <i class="fas fa-download"></i> Download Template</a>
             </div>
         </div>
