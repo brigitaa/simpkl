@@ -669,7 +669,8 @@ class PengajuanController extends Controller
 
         $template = new \PhpOffice\PhpWord\TemplateProcessor(public_path('doc/Surat Pernyataan Orang Tua.docx'));
         $fileName_suratpernyataanortu = $siswa['nis'] . '_' . $siswa['nama_siswa'] . '_Surat Pernyataan Orang Tua.docx';
-        
+        $saveDocPath = public_path('pernyataanortu/' . $fileName_suratpernyataanortu);
+
         Carbon::setLocale('id');
 
         $today = Carbon::now()->isoFormat('D MMMM Y');
@@ -686,8 +687,8 @@ class PengajuanController extends Controller
         $template->setValue('kelurahan_ortu', $siswa->kelurahan_ortu);
         $template->setValue('hp_ortu', $siswa->hp_ortu);  
 
-        $template->saveAs($fileName_suratpernyataanortu);
-        return Response::download($fileName_suratpernyataanortu); 
+        $template->saveAs($saveDocPath);
+        return Response::download($saveDocPath); 
     }
 
     public function create_surat_pernyataan_siswa()
@@ -699,6 +700,7 @@ class PengajuanController extends Controller
 
         $template = new \PhpOffice\PhpWord\TemplateProcessor(public_path('doc/Surat Pernyataan Siswa Prakerin.docx'));
         $fileName_suratpernyataansiswa = $siswa['nis'] . '_' . $siswa['nama_siswa'] . '_Surat Pernyataan Siswa.docx';
+        $saveDocPath = public_path('pernyataansiswa/' . $fileName_suratpernyataansiswa);
         
         Carbon::setLocale('id');
 
@@ -710,8 +712,8 @@ class PengajuanController extends Controller
         $template->setValue('tanggal_sekarang', $today);
         $template->setValue('nama_ortu', $siswa->nama_ortu);
                
-        $template->saveAs($fileName_suratpernyataansiswa);
-        return Response::download($fileName_suratpernyataansiswa); 
+        $template->saveAs($saveDocPath);
+        return Response::download($saveDocPath); 
     }
 
 }   
